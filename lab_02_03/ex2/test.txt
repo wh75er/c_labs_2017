@@ -1,0 +1,19 @@
+input:
+-4 -4 4 4 0 0
+output:
+Dot on the line.
+
+input:
+-4 -4 4 4 0 3
+output:
+Dot above the line.
+
+input:
+-4 -4 4 4 0 -3
+output:
+Dot under the line.
+
+input:
+a asdf dsf fdsg 4
+output:
+Error!Check your input.
