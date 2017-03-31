@@ -1,0 +1,17 @@
+input:
+a 0.00001
+output:
+Error!Check your input.
+
+input:
+2 2
+output:
+Error!Check your input.
+
+input:
+2 0.0000001
+output:
+Error!Check your input.
+
+input:
+1 0.00000001

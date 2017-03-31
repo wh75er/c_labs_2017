@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <math.h>
-#define index 3
 
 float f(float x);
 
@@ -8,12 +7,17 @@ int main()
 {
     printf("input x and eps(separated with space): ");
     float x, eps;
-    if (scanf("%f%f", &x, &eps) && eps < 1.0)
+    if (scanf("%f%f", &x, &eps) && eps < 1.0 && fabs(x) <= 1)
 	{
 		float s = x;
-		while ( fabs(s > eps) )
+		float t = x;
+		int index = 3;
+		int flag = 1;
+		while ( fabs(t) > eps )
 		{
-			s -= pow(x, index)/index;
+			t = (pow(x, index)/index) * flag;
+			s -= t;
+			flag = flag * (-1);
 			index += 2;
 		}
 		printf("S(x) result: %.3f\n", s);
