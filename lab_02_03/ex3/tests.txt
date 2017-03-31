@@ -15,3 +15,9 @@ Error!Check your input.
 
 input:
 1 0.00000001
+output:
+S(x) result: 0.785
+f(x) result: 0.785
+
+Absolute error: 0.000
+Relative error: 0.000
