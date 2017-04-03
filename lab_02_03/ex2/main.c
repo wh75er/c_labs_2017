@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <math.h>
 
+
+double Scalar_product(float m1, float m2, float x1, float y1);
+
 int main()
 {
     printf("Input coordinates of line(P1(x, y) P2(x, y)) and dot(M(x, y))(separated wtih space): ");
@@ -14,7 +17,7 @@ int main()
 		x1 = x2 - x1;
 		y1 = y2 - y1;
 
-		float res = x1 * m2 - m1 * y1;
+        float res = Scalar_product(m1, m2, x1, y1);
 		if (res == 0)
 			printf("Dot on the line.");
 		if (res > 0)
@@ -25,4 +28,10 @@ int main()
 	else
 		printf("Error!Check your input.");
 	return 0;
+}
+
+double Scalar_product(float m1, float m2, float x1, float y1)
+{
+    float res = x1 * m2 - m1 * y1;
+    return res;
 }
