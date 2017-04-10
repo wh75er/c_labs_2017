@@ -1,4 +1,9 @@
 #include <stdio.h>
+#define file_with_out "out_0.txt"
+#define good 0
+#define bad -1
+
+int process(FILE *f, int result);
 
 int main()
 {
@@ -14,5 +19,29 @@ int main()
         if (num < 0)
             flag = 1;
     }
-    printf("Maximum number: %d", max);
+    if (flag != 0)
+    {
+        FILE *f = fopen(file_with_out, "r");
+        printf("\nError code: %d\n", process(f, max));
+        fclose(f);
+        printf("Maximum number: %d", max);
+    }
+    else
+    {
+        printf("\nError code: -1\n");
+        printf("Input error!");
+    }
+}
+
+int process(FILE *f, int result)
+{
+    int check;
+    if (fscanf(f, "%d", &check) != 0)
+    {
+        if (check == result)
+            return good;
+        else
+            return bad;
+    }
+    return bad;
 }
