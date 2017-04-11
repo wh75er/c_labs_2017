@@ -1,0 +1,32 @@
+        -:    0:Source:main.c
+        -:    0:Graph:main.gcno
+        -:    0:Data:main.gcda
+        -:    0:Runs:5
+        -:    0:Programs:1
+        -:    1://Алгоритм Евклида для нахождения НОД.
+        -:    2:
+        -:    3:#include <stdio.h>
+        -:    4:
+        5:    5:int main()
+        -:    6:{
+        5:    7:    printf("Input a, b nums, separated with space: ");
+        -:    8:    int a, b;
+        5:    9:    if (scanf("%d%d", &a, &b) != 0)
+        -:   10:	{
+       15:   11:		while (a * b != 0)
+        -:   12:		{
+        7:   13:			if (a > b)
+        4:   14:				a = a % b;
+        -:   15:			else
+        3:   16:				b = b % a;
+        -:   17:		}
+        -:   18:
+        4:   19:		if (a != 0)
+        1:   20:			printf("NOD result: %d", a);
+        -:   21:		else
+        3:   22:			printf("Nod result: %d", b);
+        -:   23:	}
+        -:   24:	else
+        1:   25:		printf("Error!Check your input.");
+        5:   26:    return 0;
+        -:   27:}

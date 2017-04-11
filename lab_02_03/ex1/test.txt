@@ -1,0 +1,19 @@
+input:
+72 64
+output:
+8
+
+input:
+15 35
+output:
+5
+
+input:
+54 72
+output:
+18
+
+input:
+53.2 abc
+output:
+error!

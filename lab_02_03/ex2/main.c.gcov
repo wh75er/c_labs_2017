@@ -1,0 +1,33 @@
+        -:    0:Source:main.c
+        -:    0:Graph:main.gcno
+        -:    0:Data:main.gcda
+        -:    0:Runs:4
+        -:    0:Programs:1
+        -:    1://Программа определяет положение точки относительно прямой
+        -:    2:
+        -:    3:#include <stdio.h>
+        -:    4:#include <math.h>
+        -:    5:
+        4:    6:int main()
+        -:    7:{
+        4:    8:    printf("Input coordinates of line(P1(x, y) P2(x, y)) and dot(M(x, y))(separated wtih space): ");
+        -:    9:    float x1, y1, x2, y2, m1, m2;
+        4:   10:    if (scanf("%f%f%f%f%f%f", &x1, &y1, &x2, &y2, &m1, &m2) != 0)
+        -:   11:	{
+        3:   12:		m1 = m1 - x1;
+        3:   13:		m2 = m2 - y1;
+        3:   14:		x1 = x2 - x1;
+        3:   15:		y1 = y2 - y1;
+        -:   16:
+        3:   17:		float res = x1 * m2 - m1 * y1;
+        3:   18:		if (res == 0)
+        1:   19:			printf("Dot on the line.");
+        3:   20:		if (res > 0)
+        1:   21:			printf("Dot above the line.");
+        3:   22:		if (res < 0)
+        1:   23:			printf("Dot under the line.");
+        -:   24:	}
+        -:   25:	else
+        1:   26:		printf("Error!Check your input.");
+        4:   27:	return 0;
+        -:   28:}

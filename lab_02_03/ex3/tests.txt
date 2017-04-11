@@ -1,0 +1,23 @@
+input:
+a 0.00001
+output:
+Error!Check your input.
+
+input:
+2 2
+output:
+Error!Check your input.
+
+input:
+2 0.0000001
+output:
+Error!Check your input.
+
+input:
+1 0.0001
+output:
+S(x) result: 0.785
+f(x) result: 0.785
+
+Absolute error: 0.000
+Relative error: 0.000
