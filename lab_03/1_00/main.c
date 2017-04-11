@@ -1,47 +1,52 @@
 #include <stdio.h>
-#define file_with_out "out_0.txt"
+#define file_with_in "in_1.txt"
 #define good 0
 #define bad -1
 
-int process(FILE *f, int result);
+int process(FILE *f, int *code);
 
 int main()
 {
-    printf("Input whole nums: ");
-    int num, max, flag;
-    flag = 0;
-    max = 0;
-    while (scanf("%d", &num) != 0)
+    printf("Program working with %s", file_with_in);
+    FILE *f = fopen(file_with_in, "r");
+    int code = 0;
+    int result;
+    result = process(f, &code);
+    fclose(f);
+    if (code == 1)
     {
-        if (flag != 0)
-            if (max < num)
-                max = num;
-        if (num < 0)
-            flag = 1;
-    }
-    if (flag != 0)
-    {
-        FILE *f = fopen(file_with_out, "r");
-        printf("\nError code: %d\n", process(f, max));
-        fclose(f);
-        printf("Maximum number: %d", max);
+        printf("\n\nError code: %d\n", 0);
+        printf("Maximum number: %d", result);
     }
     else
     {
-        printf("\nError code: -1\n");
-        printf("Input error!");
+        printf("\n\nError code: %d\n", -1);
+        printf("Maximum number: %s", "Error!");
     }
 }
 
-int process(FILE *f, int result)
+int process(FILE *f, int *code)
 {
-    int check;
-    if (fscanf(f, "%d", &check) != 0)
+    int num, max;
+    *code = 0;
+    max = 0;
+    while (!feof (f))
     {
-        if (check == result)
-            return good;
+        if (fscanf(f, "%d", &num) != 0)
+        {
+            if (*code != 0)
+                if (max < num)
+                    max = num;
+            if (num < 0)
+                *code = 1;
+        }
         else
-            return bad;
+        {
+            *code = 0;
+            return 0;
+        }
     }
-    return bad;
+    if (*code != 0)
+        return max;
+    return 0;
 }
