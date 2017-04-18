@@ -37,7 +37,7 @@ int file_proc(FILE *f, int *code, float *sum, float max, float min)
     flag = 0;
     while (!feof(f))
     {
-        if (fscanf(f, "%f", &num) != 0)
+        if (fscanf(f, "%f", &num))
         {
             if (num == min)
             {

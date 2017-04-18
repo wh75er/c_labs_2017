@@ -32,7 +32,7 @@ int process(FILE *f, int *code)
     max = 0;
     while (!feof (f))
     {
-        if (fscanf(f, "%d", &num) != 0)
+        if (fscanf(f, "%d", &num))
         {
             if (*code != 0)
                 if (max < num)
