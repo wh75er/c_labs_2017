@@ -15,7 +15,7 @@ int main()
     float sum = 0;
     int count = file_proc(f, &code, &sum, max, min);
     fclose(f);
-    if ((code == 0) && (count != 0))
+    if ((!code) && (count))
         printf("Mid: %.4f", mid(sum, count));
     else
         printf("Error!");
@@ -23,7 +23,7 @@ int main()
 
 float mid(float sum, int count)
 {
-    if (sum != 0)
+    if (sum)
         return sum/count;
     return 0;
 }
@@ -35,7 +35,8 @@ int file_proc(FILE *f, int *code, float *sum, float max, float min)
     int count, flag;
     count = 0;
     flag = 0;
-    while (!feof(f))
+    stop = 0;
+    while ((!feof(f)) && (!stop))
     {
         if (fscanf(f, "%f", &num))
         {
@@ -43,15 +44,15 @@ int file_proc(FILE *f, int *code, float *sum, float max, float min)
             {
                 flag = 1;
             }
-            if ((flag == 1) && (num != min) && (num != max))
+            if ((flag) && (num != min) && (num != max))
             {
                 *sum += num;
                 count += 1;
             }
-            if ((flag == 1) && (num == max))
+            if ((flag) && (num == max))
             {
                 *code = 0;
-                return count;
+                stop = 1;
             }
         }
         else

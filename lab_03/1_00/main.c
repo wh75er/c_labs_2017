@@ -4,6 +4,7 @@
 #define bad -1
 
 int process(FILE *f, int *code);
+void output(code, result);
 
 int main()
 {
@@ -13,16 +14,7 @@ int main()
     int result;
     result = process(f, &code);
     fclose(f);
-    if (code == 1)
-    {
-        printf("\n\nError code: %d\n", 0);
-        printf("Maximum number: %d", result);
-    }
-    else
-    {
-        printf("\n\nError code: %d\n", -1);
-        printf("Maximum number: %s", "Error!");
-    }
+    output(code, result);
 }
 
 int process(FILE *f, int *code)
@@ -34,7 +26,7 @@ int process(FILE *f, int *code)
     {
         if (fscanf(f, "%d", &num))
         {
-            if (*code != 0)
+            if (*code)
                 if (max < num)
                     max = num;
             if (num < 0)
@@ -46,7 +38,21 @@ int process(FILE *f, int *code)
             return 0;
         }
     }
-    if (*code != 0)
+    if (*code)
         return max;
     return 0;
+}
+
+void output(code, result)
+{
+    if (code)
+    {
+        printf("\n\nError code: %d\n", 0);
+        printf("Maximum number: %d", result);
+    }
+    else
+    {
+        printf("\n\nError code: %d\n", -1);
+        printf("Maximum number: %s", "Error!");
+    }
 }
