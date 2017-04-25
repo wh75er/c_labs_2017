@@ -14,7 +14,10 @@ int main()
     int result;
     result = process(f, &code);
     fclose(f);
-    output(code, result);
+    if (code)
+        output(code, result);
+    else
+        output(code, 0);
 }
 
 int process(FILE *f, int *code)
@@ -35,12 +38,9 @@ int process(FILE *f, int *code)
         else
         {
             *code = 0;
-            return 0;
         }
     }
-    if (*code)
-        return max;
-    return 0;
+    return max;
 }
 
 void output(code, result)
