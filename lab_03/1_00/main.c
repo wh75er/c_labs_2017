@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define file_with_in "in_1.txt"
+#define file_with_in "in_4.txt"
 #define good 0
 #define bad -1
 
@@ -23,9 +23,9 @@ int main()
 int process(FILE *f, int *code)
 {
     int num, max;
-    *code = 0;
+    *code = 1;
     max = 0;
-    while (!feof (f))
+    while (!feof (f) && *code)
     {
         if (fscanf(f, "%d", &num))
         {
