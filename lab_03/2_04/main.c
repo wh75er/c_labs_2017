@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define file_name "in_2.txt"
+#define file_name "in_3.txt"
 
 float mid(float sum, int count);
 void max_min(FILE *f, float *max, float *min);
@@ -35,7 +35,7 @@ int file_proc(FILE *f, int *code, float *sum, float max, float min)
     int count, flag;
     count = 0;
     flag = 0;
-    stop = 0;
+    int stop = 0;
     while ((!feof(f)) && (!stop))
     {
         if (fscanf(f, "%f", &num))
