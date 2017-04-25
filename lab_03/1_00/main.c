@@ -4,7 +4,7 @@
 #define bad -1
 
 int process(FILE *f, int *code);
-void output(code, result);
+void output(int code, int result);
 
 int main()
 {
@@ -43,7 +43,7 @@ int process(FILE *f, int *code)
     return max;
 }
 
-void output(code, result)
+void output(int code, int result)
 {
     if (code)
     {
