@@ -1,10 +1,8 @@
 #include <stdio.h>
 
-void insertions_sort(int *a, int n);
+void insertions_sort(int *pa, int* pa_fin);
 
-int size_of_array(FILE *f);
-
-void array_init(int *pa, FILE *f, int size);
+int* array_init(int *pa, FILE *f, int* code);
 
 int main()
 {
@@ -12,41 +10,46 @@ int main()
     char string_array[10] = "";
     char *file_name = gets(string_array);
     FILE *f = fopen(file_name, "r");
-    int size = size_of_array(f);
-    int a[size];
+    int a[100];
     int *pa = a;
-    array_init(pa, f, size);
-    for (int i = 1; i < size; i++)
+    int code = 0;
+
+    int* pa_fin = array_init(pa, f, &code);
+    if ( !code )
     {
-        printf("%d\n", a[i]);
+        for (pa = a; pa < pa_fin - 1; pa++)
+        {
+            printf("+++");
+            printf("%d\n", *pa);
+        }
     }
+    else
+        printf("Error!");
     fclose(f);
     return 0;
 }
 
-int size_of_array(FILE *f)
+int* array_init(int *pa_fin, FILE *f, int* code)
 {
-    int counter = 0;
     int num;
-    while ( !feof(f) )
-    {
-        if ( fscanf( f, "%d", &num ) )
-            counter += 1;
-    }
-    return counter;
-}
-
-void array_init(int *pa, FILE *f, int size)
-{
-    fseek(f, 0, SEEK_SET);
-    int num;
-    int i = 0;
-    while ( (!feof(f)) && (i != size) )
+    int stop = 0;
+    while ( !feof(f) && !stop)
     {
         if ( fscanf( f, "%d", &num ) )
         {
-            *pa = num;                                      //Dont work!
-            i++;
+            *pa_fin = num;
+            pa_fin++;
+        }
+        else
+        {
+            *code = 1;
+            stop = 1;
         }
     }
+    return ++pa_fin;
+}
+
+void insertions_sort(int* pa, int* pa_fin)
+{
+
 }
