@@ -6,6 +6,8 @@ void insertions_sort(int *pa, int* pa_fin);
 
 int* array_init(int *pa, FILE *f, int* code);
 
+int uniq_nums_counter(int* pa, int* pa_fin, int* a);
+
 int main()
 {
     printf("Input name of file: ");
@@ -20,16 +22,7 @@ int main()
     if ( !code )
     {
         insertions_sort(a, pa_fin);
-        int counter = 0;
-        for (pa = a + 1; pa < pa_fin - 1; pa++)
-        {
-            if ( *pa != *(pa - 1) && *pa != *(pa + 1) )
-                counter++;
-        }
-        if ( *a != *(a + 1) )
-            counter++;
-        if ( *(pa_fin - 1) != *(pa_fin - 2) )
-            counter++;
+        int counter = uniq_nums_counter(pa, pa_fin, a);
         printf("Result: %d", counter);
     }
     else
@@ -70,12 +63,27 @@ void insertions_sort(int* a, int* pa_fin)
     int* pa = a;
     for (pa = a + 1; pa < pa_fin; pa++)
     {
-        for (int* i= pa; i > a - 1; i--)
+        for (int* pa_i= pa; pa_i > a - 1; pa_i--)
         {
-            if (*(i-1) > *i)
+            if (*(pa_i-1) > *pa_i)
             {
-                swap(i-1, i);
+                swap(pa_i-1, pa_i);
             }
         }
     }
+}
+
+int uniq_nums_counter(int *pa, int *pa_fin, int* a)
+{
+    int counter = 0;
+    for (pa = a + 1; pa < pa_fin - 1; pa++)
+    {
+        if ( *pa != *(pa - 1) && *pa != *(pa + 1) )
+            counter++;
+    }
+    if ( *a != *(a + 1) )
+        counter++;
+    if ( *(pa_fin - 1) != *(pa_fin - 2) )
+        counter++;
+    return counter;
 }
