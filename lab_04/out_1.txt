@@ -1,0 +1,21 @@
+Amount and multiplication:
+0
+1
+
+New array (n > 1):
+Null
+
+New array without negative nums:
+1
+
+Array with amount before user's number:
+---
+
+Array after switching even max and uneven min:
+1
+
+Array with 3-nums:
+1
+
+Correct sequence between min and max nums:
+1
