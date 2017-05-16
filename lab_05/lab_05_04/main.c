@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+#define size_of_array 100
+
+#define size_of_string 10
+
 void swap(int* a, int* b);
 
 void insertions_sort(int *pa, int* pa_fin);
@@ -11,10 +15,10 @@ int uniq_nums_counter(int* pa, int* pa_fin, int* a);
 int main()
 {
     printf("Input name of file: ");
-    char string_array[10] = "";
+    char string_array[size_of_string] = "";
     char *file_name = gets(string_array);
     FILE *f = fopen(file_name, "r");
-    int a[100];
+    int a[size_of_array];
     int *pa = a;
     int code = 0;
 
