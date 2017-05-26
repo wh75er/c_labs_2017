@@ -1,5 +1,4 @@
 #include "uniq_nums_counter.h"
-#include <stdio.h>
 
 int uniq_nums_counter(int *pa, int *pa_fin, int* a)
 {

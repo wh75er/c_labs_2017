@@ -1,6 +1,4 @@
 #include "insertions_sort.h"
-#include "swap.h"
-#include <stdio.h>
 
 void insertions_sort(int* a, int* pa_fin)
 {

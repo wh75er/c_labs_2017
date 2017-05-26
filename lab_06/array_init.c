@@ -1,5 +1,4 @@
 #include "array_init.h"
-#include <stdio.h>
 
 int* array_init(int *pa_fin, FILE *f, int* code)
 {

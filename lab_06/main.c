@@ -1,12 +1,4 @@
-#include "swap.h"
-#include "insertions_sort.h"
-#include "uniq_nums_counter.h"
-#include "array_init.h"
-#include <stdio.h>
-
-#define size_of_array 100
-
-#define size_of_string 10
+#include "main.h"
 
 int main()
 {
