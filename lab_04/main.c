@@ -85,13 +85,11 @@ int main()
 //------------------------------- init --------------------------------------------------
 int* array_init(int *pa_fin, FILE *f)
 {
-    int num;
     int stop = 0;
     while ( !feof(f) && !stop)
     {
-        if ( fscanf( f, "%d", &num ) )
+        if ( fscanf( f, "%d", &(*pa_fin) ) )
         {
-            *pa_fin = num;
             pa_fin++;
         }
         else
