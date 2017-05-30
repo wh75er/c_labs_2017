@@ -1,0 +1,21 @@
+Amount and multiplication:
+10
+-93555
+
+New array (n > 19.17):
+99
+
+New array without negative nums:
+10 5 3 99 7
+
+Array with amount before user's number:
+---
+
+Array after switching even max and uneven min:
+3 5 10 -9 99 7
+
+Array with 3-nums:
+10 5 3 -9 3 7
+
+Correct sequence between min and max nums:
+10 5 3 -9 99 7
