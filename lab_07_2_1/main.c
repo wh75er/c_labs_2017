@@ -6,39 +6,44 @@
 int* array_init(int *pa_fin, FILE *f, int* code);
 void array_print(int *pa, int *pa_fin);
 
-int main()
+int main(int argc, char **argv)
 {
-    printf("Input name of file: ");
-    char string_array[size_of_string] = "";
-    char *file_name = gets(string_array);
-    FILE *f = fopen(file_name, "r");
-
-    int a[start_size];
-    int* pa = a;
-    int code = 0;
-
-    printf("\n\n+\n\n");
-    int* pa_fin = array_init(pa, f, &code);
-    printf("\n\n+\n\n");
-    if ( !code )
+    if (argc > 1)
     {
-        array_print(pa, pa_fin);
-        printf("Result: +");
+        printf("%c", argv[1]);
+        FILE *f = fopen(argv[1], "r");
+
+        int a[start_size];
+        int* pa = a;
+        int code = 0;
+
+        printf("\n\n+\n\n");
+        int* pa_fin = array_init(pa, f, &code);
+        printf("\n\n+\n\n");
+        if ( !code )
+        {
+            array_print(pa, pa_fin);
+            printf("\nResult: +\n\n");
+        }
+        else
+            printf("\nError!\n");
+        fclose(f);
     }
     else
-        printf("Error!");
-    fclose(f);
+        printf("\nFile name entering error.\n");
     return 0;
 }
 
 int* array_init(int *pa_fin, FILE *f, int* code)
 {
     int stop = 0;
-    printf("\n\n+\n\n");
+    int count = 0;
     while ( !feof(f) && !stop)
     {
         if ( fscanf( f, "%d", &(*pa_fin) ) )
         {
+            count++;
+            printf("\n%d\n", count);
             pa_fin++;
         }
         else
@@ -53,5 +58,5 @@ int* array_init(int *pa_fin, FILE *f, int* code)
 void array_print(int *pa, int *pa_fin)
 {
     for (int* pa_i = pa; pa_i < pa_fin; pa_i++)
-            printf("%d ", *pa_i);
+            printf("%d+ ", *pa_i);
 }
