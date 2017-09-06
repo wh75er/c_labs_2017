@@ -40,11 +40,12 @@ int* array_init(int *pa_fin, FILE *f, int* code)
     int count = 0;
     while ( !feof(f) && !stop)
     {
-        if ( fscanf( f, "%d", &(*pa_fin) ) )
+        if ( fscanf( f, "%d", pa_fin ) )
         {
+            printf("\n%d\n", *pa_fin);
+            pa_fin++;
             count++;
             printf("\n%d\n", count);
-            pa_fin++;
         }
         else
         {
