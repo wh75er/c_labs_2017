@@ -15,7 +15,10 @@ int* dynamic_array_int(FILE* f, int len, int* code);
 double* dynamic_array_double(FILE* f, int len, int* code);
 
 //Sort and filter
-
+    //int
+int *filter_int(int *a, int *len);
+    //double
+double* filter_double(double* a, int* len);
 
 
 int main(int argc, char **argv)
@@ -43,13 +46,19 @@ int main(int argc, char **argv)
             {
                 int* array = dynamic_array_int(f, len, &code);
                 array_print_int(array, array+len);
+                array = filter_int(array, &len);
+
+                free(array);
             }
             else
             {
                 double* array = dynamic_array_double(f, len, &code);
                 array_print_double(array, array+len);
+                array = filter_double(array, &len);
+
+                free(array);
             }
-            // Prog
+
         }
         else
             printf("\nFile reading error!\n");
@@ -60,6 +69,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
+//counters
 int len_array_int(FILE *f, int* code)
 {
     int stop = 0;
@@ -100,6 +110,7 @@ int len_array_double(FILE *f, int* code)
     return count;
 }
 
+//print and init
 int* array_init(int *pa_fin, FILE *f, int* code)
 {
     int stop = 0;
@@ -130,8 +141,7 @@ void array_print_double(double *pa, double *pa_fin)
             printf("%lf ", *pa_i);
 }
 
-
-
+//dynamic array creation
 int* dynamic_array_int(FILE* f, int len, int* code)
 {
     int* array = (int*)malloc(len*sizeof(int));
@@ -176,4 +186,94 @@ double* dynamic_array_double(FILE* f, int len, int* code)
         }
     }
     return array;
+}
+
+//Sort and filter
+    //int
+int* filter_int(int* a, int* len)
+{
+    int *min = a;
+    int *max = a;
+    for (int* pa = a + 1; pa < a + *len; pa++)
+    {
+        if (*pa > *max)
+            max = pa;
+        if (*pa < *min)
+            min = pa;
+    }
+    printf("\n%d, %d, %d\n", *min, *max, (max - min - 1));
+    if ((max - min - 1) > 0)
+    {
+        *len = (max - min - 1);
+        int* farray = (int*)malloc((max - min - 1)*sizeof(int));
+        int* fpa = farray;
+        for (int* pa = min+1; pa < max; pa++)
+        {
+            *fpa = *pa;
+            fpa++;
+        }
+        array_print_int(farray, farray+(max - min - 1));
+
+        return farray;
+    }
+    else if ((min - max - 1) > 0)
+    {
+        *len = (min - max - 1);
+        int* farray = (int*)malloc((min - max - 1)*sizeof(int));
+        int* fpa = farray;
+        for (int* pa = max+1; pa < min; pa++)
+        {
+            *fpa = *pa;
+            fpa++;
+        }
+        array_print_int(farray, farray+(min - max - 1));
+
+        return farray;
+    }
+
+    printf("\n%d, %d, %d\n", *min, *max, (max - min - 1));
+    return a;
+}
+
+    //double
+double* filter_double(double* a, int* len)
+{
+    double *min = a;
+    double *max = a;
+    for (double* pa = a + 1; pa < a + *len; pa++)
+    {
+        if (*pa > *max)
+            max = pa;
+        if (*pa < *min)
+            min = pa;
+    }
+    if ((max - min - 1) > 0)
+    {
+        *len = (max - min - 1);
+        double* farray = (double*)malloc(*len*sizeof(double));
+        double* fpa = farray;
+        for (double* pa = min+1; pa < max; pa++)
+        {
+            *fpa = *pa;
+            fpa++;
+        }
+        array_print_double(farray, farray+(max - min - 1));
+        return farray;
+    }
+  else if ((min - max - 1) > 0)
+    {
+        *len = (min - max - 1);
+        double* farray = (double*)malloc(*len*sizeof(double));
+        double* fpa = farray;
+        for (double* pa = max+1; pa < min; pa++)
+        {
+            *fpa = *pa;
+            fpa++;
+        }
+        array_print_double(farray, farray+(min - max - 1));
+        return farray;
+    }
+
+    printf("\n%lf, %lf, %d\n", *min, *max, (max - min - 1));
+    return a;
 }
