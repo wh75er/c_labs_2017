@@ -28,7 +28,7 @@ int main(int argc, char **argv)
         FILE *f = fopen(argv[1], "r");
 
         int code = 0;
-        size_t type = sizeof(int);                //Type of varAr (int)
+        size_t type = sizeof(int);              //Type of varAr (int)
 
         int len = len_array_int(f, &code);
         if (code)
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
         {
             printf("\n%d\n", type);
             printf("\n%d\n", len);
-            if (type == 4)
+            if (type == 4)                      //int branch work
             {
                 int* array = dynamic_array_int(f, len, &code);
                 array_print_int(array, array+len);
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
 
                 free(array);
             }
-            else
+            else                                //double branch work
             {
                 double* array = dynamic_array_double(f, len, &code);
                 array_print_double(array, array+len);
