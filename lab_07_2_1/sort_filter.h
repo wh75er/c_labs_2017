@@ -4,8 +4,7 @@
 #include "swap.h"
 #include "compare.h"
 
-int* filter_int(int* a, int* len);
-double* filter_double(double* a, int* len);
+void* filter(char *choice, void* array, int* len, size_t type);
 void bubble_sort(void *array, size_t nmemb, size_t type);
 
 #endif

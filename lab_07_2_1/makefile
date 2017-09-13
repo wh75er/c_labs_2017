@@ -2,12 +2,12 @@ CC := gcc
 
 param := -Wall -Werror -std=c99
 
-OBJS := compare.o counter.o dynamic_arrays.o sort_filter.o swap.o
+OBJS := compare.o counter.o dynamic_arrays.o sort_filter.o swap.o main_dynamic_array.o file_write.o file_open.o
 
 main.out: $(OBJS) main.o
 	$(CC) $^ -o $@
 
-main.o: main.c compare.h counter.h dynamic_arrays.h sort_filter.h swap.h
+main.o: main.c compare.h counter.h dynamic_arrays.h sort_filter.h swap.h main_dynamic_array.h file_write.h file_open.h
 	$(CC) -c main.c -o $@
 
 sort_filter.o: swap.h compare.h sort_filter.h sort_filter.c
@@ -24,6 +24,15 @@ swap.o: swap.h swap.c
 
 compare.o: compare.h compare.c
 	$(CC) -c compare.c -o $@
+
+main_dynamic_array.o: dynamic_arrays.h main_dynamic_array.h main_dynamic_array.c
+	$(CC) -c main_dynamic_array.c -o $@
+
+file_write.o: file_write.h file_write.c
+	$(CC) -c file_write.c -o $@
+
+file_open.o: counter.h file_open.h file_open.c
+	$(CC) -c file_open.c -o $@
 
 clean:
 	rm *.o *.out

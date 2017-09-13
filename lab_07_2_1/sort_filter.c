@@ -1,84 +1,99 @@
 #include "sort_filter.h"
 
-int* filter_int(int* a, int* len)
+void* filter(char* choice, void* array, int* len, size_t type)
 {
-    int *min = a;
-    int *max = a;
-    for (int* pa = a + 1; pa < a + *len; pa++)
+    if (*choice == '1')
     {
-        if (*pa > *max)
-            max = pa;
-        if (*pa < *min)
-            min = pa;
-    }
-    if ((max - min - 1) > 0)
-    {
-        *len = (max - min - 1);
-        int* farray = (int*)malloc((max - min - 1)*sizeof(int));
-        int* fpa = farray;
-        for (int* pa = min+1; pa < max; pa++)
+        if (type == 4)
         {
-            *fpa = *pa;
-            fpa++;
+            int* a = (int*) array;
+            int *min = a;
+            int *max = a;
+            for (int* pa = a + 1; pa < a + *len; pa++)
+            {
+                if (*pa > *max)
+                    max = pa;
+                if (*pa < *min)
+                    min = pa;
+            }
+            if ((max - min - 1) > 0)
+            {
+                *len = (max - min - 1);
+                int* farray = (int*)malloc((max - min - 1)*sizeof(int));
+                int* fpa = farray;
+                for (int* pa = min+1; pa < max; pa++)
+                {
+                    *fpa = *pa;
+                    fpa++;
+                }
+
+                return farray;
+            }
+            else if ((min - max - 1) > 0)
+            {
+                *len = (min - max - 1);
+                int* farray = (int*)malloc((min - max - 1)*sizeof(int));
+                int* fpa = farray;
+                for (int* pa = max+1; pa < min; pa++)
+                {
+                    *fpa = *pa;
+                    fpa++;
+                }
+
+                return farray;
+            }
+            free(array);
+            int* farray = (int*)malloc(type);
+            *len = 0;
+            *farray = 0;
+            return farray;
         }
 
-        return farray;
-    }
-    else if ((min - max - 1) > 0)
-    {
-        *len = (min - max - 1);
-        int* farray = (int*)malloc((min - max - 1)*sizeof(int));
-        int* fpa = farray;
-        for (int* pa = max+1; pa < min; pa++)
+        else
         {
-            *fpa = *pa;
-            fpa++;
+            double* a = (double*)array;
+            double *min = a;
+            double *max = a;
+            for (double* pa = a + 1; pa < a + *len; pa++)
+            {
+                if (*pa > *max)
+                    max = pa;
+                if (*pa < *min)
+                    min = pa;
+            }
+            if ((max - min - 1) > 0)
+            {
+                *len = (max - min - 1);
+                double* farray = (double*)malloc(*len*sizeof(double));
+                double* fpa = farray;
+                for (double* pa = min+1; pa < max; pa++)
+                {
+                    *fpa = *pa;
+                    fpa++;
+                }
+                return farray;
+            }
+          else if ((min - max - 1) > 0)
+            {
+                *len = (min - max - 1);
+                double* farray = (double*)malloc(*len*sizeof(double));
+                double* fpa = farray;
+                for (double* pa = max+1; pa < min; pa++)
+                {
+                    *fpa = *pa;
+                    fpa++;
+                }
+                return farray;
+            }
+
+            free(array);
+            double* farray = (double*)malloc(type);
+            *len = 0;
+            *farray = 0;
+            return farray;
         }
-
-        return farray;
     }
-
-    return a;
-}
-
-    //double
-double* filter_double(double* a, int* len)
-{
-    double *min = a;
-    double *max = a;
-    for (double* pa = a + 1; pa < a + *len; pa++)
-    {
-        if (*pa > *max)
-            max = pa;
-        if (*pa < *min)
-            min = pa;
-    }
-    if ((max - min - 1) > 0)
-    {
-        *len = (max - min - 1);
-        double* farray = (double*)malloc(*len*sizeof(double));
-        double* fpa = farray;
-        for (double* pa = min+1; pa < max; pa++)
-        {
-            *fpa = *pa;
-            fpa++;
-        }
-        return farray;
-    }
-  else if ((min - max - 1) > 0)
-    {
-        *len = (min - max - 1);
-        double* farray = (double*)malloc(*len*sizeof(double));
-        double* fpa = farray;
-        for (double* pa = max+1; pa < min; pa++)
-        {
-            *fpa = *pa;
-            fpa++;
-        }
-        return farray;
-    }
-
-    return a;
+    return array;
 }
 
 void bubble_sort(void *array, size_t nmemb, size_t type)

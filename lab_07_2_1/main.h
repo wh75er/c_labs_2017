@@ -8,6 +8,10 @@
 #include "compare.h"
 #include "sort_filter.h"
 
+#include "file_open.h"
+#include "main_dynamic_array.h"
+#include "file_write.h"
+
 int main(int argc, char **argv);
 
 #endif
