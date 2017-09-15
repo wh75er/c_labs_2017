@@ -35,4 +35,6 @@ file_open.o: counter.h file_open.h file_open.c
 	$(CC) -c file_open.c -o $@
 
 clean:
-	rm *.o *.out
+	rm *.o *.out tests/func/out?.txt
+func_test:
+	./func_tests
