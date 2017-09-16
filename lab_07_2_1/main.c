@@ -4,7 +4,7 @@
 
 int main(int argc, char **argv)
 {
-	if (argc > 3 && (*argv[3] == '1' || *argv[3] == '0'))
+	if (argc > 3 && (*argv[3] == '1' || *argv[3] == '0') && argc < 5)
 	{
 		int code = 0;
 		size_t type;
