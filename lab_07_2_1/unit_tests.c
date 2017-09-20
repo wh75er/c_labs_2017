@@ -32,8 +32,7 @@ int main(int argc, char **argv)
 			if (!code)
 			{
 				void* array = create_dynamic_array(argv[1], len, &code, type, dynamic_array_double, dynamic_array_int);
-				char one = ONE;
-				char* choice = &one;
+				char choice = ONE;
 				void* array_after_filter = filter(choice, array, &len, type);
 				write_file(argv[2], array_after_filter, type, len);
 

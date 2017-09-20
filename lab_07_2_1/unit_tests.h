@@ -13,6 +13,4 @@
 #include "main_dynamic_array.h"
 #include "file_write.h"
 
-int main(int argc, char **argv);
-
 #endif

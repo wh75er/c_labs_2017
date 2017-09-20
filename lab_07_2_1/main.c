@@ -13,19 +13,17 @@ int main(int argc, char **argv)
 		{
 
 			void* array = create_dynamic_array(argv[1], len, &code, type, dynamic_array_double, dynamic_array_int);
-			void* array_after_filter = filter(argv[3], array, &len, type);
+			void* array_after_filter = filter(*argv[3], array, &len, type);
 
 			bubble_sort(array_after_filter, len, type);
 
-			write_file(argv[2], array_after_filter, type, len);
+			write_file(argv[2], array_after_filter, type, len, code);
 
 			free(array_after_filter);
         }
 		else
 		{
-			type = -1;
-			void* empty;
-			write_file(argv[2], empty, type, len);
+			write_file(argv[2], NULL, type, len, code);
 		}
 	}
 	else

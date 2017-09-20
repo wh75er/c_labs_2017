@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include "sortQandB.h"
 
 unsigned long long tick(void) {
 	unsigned long long d;

@@ -31,3 +31,4 @@ for ((i = 0; i < 8; i++))
 			echo "Test $i is BAD"
 		fi
 	done
+make clean

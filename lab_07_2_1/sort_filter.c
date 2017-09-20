@@ -1,8 +1,8 @@
 #include "sort_filter.h"
 
-void* filter(const char* choice, void* array, int* len, size_t type)
+void* filter(const char choice, void* array, int* len, size_t type)
 {
-    if (*choice == '1')
+	if (choice == '1')
     {
         if (type == 4)
         {
