@@ -1,0 +1,8 @@
+#!/bin/bash
+
+make
+for ((i = 0; i < 5; i++))
+	do
+		./sortQandB.out SortTimeTests/in$i.txt
+	done
+make clean
