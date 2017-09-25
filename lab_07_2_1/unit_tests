@@ -1,0 +1,34 @@
+#!/bin/bash
+make -f make_unit
+echo
+echo "UNIT tests:"
+echo "Tests for sort function:"
+echo
+
+for ((i = 0; i < 8; i++))
+	do
+		./unit_tests.out tests/func/in$i.txt tests/func/out$i.txt s
+		if cmp -s tests/func/out$i.txt tests/func/out_0_$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+
+echo
+echo "UNIT tests:"
+echo "Tests for filter function:"
+echo
+
+for ((i = 0; i < 8; i++))
+	do
+		./unit_tests.out tests/func/in$i.txt tests/unit/out$i.txt f
+		if cmp -s tests/unit/out_f_$i.txt tests/unit/out$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+make clean

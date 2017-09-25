@@ -1,0 +1,29 @@
+#!/bin/bash
+make
+echo "Func tests:"
+echo "Tests with filter:"
+echo
+for ((i = 0; i < 8; i++))
+	do
+		./main.out tests/func/in$i.txt tests/func/out$i.txt 0
+		if cmp -s tests/func/out$i.txt tests/func/out_0_$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+echo
+echo "Tests without filters:"
+echo
+for ((i = 0; i < 8; i++))
+	do
+		./main.out tests/func/in$i.txt tests/func/out$i.txt 1
+		if cmp -s tests/func/out$i.txt tests/func/out_1_$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+make clean
