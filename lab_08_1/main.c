@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define OK 0
 #define FILE_OPEN_ERROR -1
@@ -7,13 +8,16 @@
 
 struct DoubleArray
 {
-	int line;
+	int lines;
 	int col;
-	double **array;
+	double **data;
 }mtrx1, mtrx2;
 
 int CommandInputLen(int argc);
-int WorkingFile(char* name, FILE* f);
+
+int DynamicInit(struct DoubleArray *mtrx);
+int ReadingFile(FILE* f, struct DoubleArray *mtrx);
+FILE* WorkingFile(char* name, int* code);
 int ArrayInit(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, char **argv);
 
 int ErrorOut(int code);
@@ -35,25 +39,48 @@ int CommandInputLen(int argc)
 	return COMMAND_INPUT_ERROR;
 }
 
-int WorkingFile(char* name, FILE* f)
+FILE* WorkingFile(char* name, int* code)
 {
 	if (!fopen(name, "r"))
-		return FILE_OPEN_ERROR;
-	f = fopen(name, "r");
+		*code = FILE_OPEN_ERROR;
+	FILE* f = fopen(name, "r");
+	return f;
+}
+
+int DynamicInit(struct DoubleArray *mtrx)
+{
+	if (mtrx->col > 1 && mtrx->lines > 1)
+		mtrx->data = (double**)malloc(mtrx->lines * sizeof(double*) + mtrx->col * mtrx->lines * sizeof(double));
+	else
+		return ARRAY_INIT_ERROR;
+	for (int i = 0; i < mtrx->lines; i++)
+		mtrx->data[i] = NULL;
 	return OK;
 }
 
-int ReadingFile(FILE* f, struct DoubleArray *mtrx, int* code);
+int ReadingFile(FILE* f, struct DoubleArray *mtrx)
+{
+	int num, num1, code = OK;
+	if ( fscanf(f, "%d %d\n", &num, &num1) )
+	{
+		mtrx->lines = num;
+		mtrx->col = num1;
+	}
+
+	code = DynamicInit(mtrx);
+
+	return code;
+}
+	
 
 int ArrayInit(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, char **argv)
 {
 	int code = OK;
+	FILE* f1 = WorkingFile(argv[1], &code);
 
-	FILE* f1;
-	code = WorkingFile(argv[1], f1);
-
-	FILE* f2;
-	code = WorkingFile(argv[2], f2);
+	FILE* f2 = WorkingFile(argv[2], &code);
+	
+	code = ReadingFile(f1, mtrx1);
 
 	return code;
 }
