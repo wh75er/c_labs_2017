@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 enum{
 	OK = 0,
@@ -8,7 +9,10 @@ enum{
 	COMMAND_INPUT_ERROR,
 	INCORRECT_CHOICE_ERROR,
 	INCORRECT_MATRIX_SIZE_WHILE_AMOUNT,
-	INCORRECT_MATRIX_SIZE_WHILE_MULTIP
+	INCORRECT_MATRIX_SIZE_WHILE_MULTIP,
+	NULL_COPY_MATRIX_ERROR,
+	OTHER_SIZE_COPY_MATRIX_ERROR,
+	INCORRECT_MATRIX_SIZE_WHILE_GAUSSIAN
 };
 
 struct DoubleArray
@@ -29,7 +33,10 @@ int ArrayInit(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, char **argv)
 
 int MatrixAmount(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struct DoubleArray *mtrx3);
 int MatrixMulti(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struct DoubleArray *mtrx3);
-int MatrixGaussian(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struct DoubleArray *mtrx3);
+int copyMatrix(struct DoubleArray *mtrx_in, struct DoubleArray *mtrx_out);
+void maxFindingMatrix(double* max, int* tmp, int indent, struct DoubleArray *mtrx, int j);
+void linesSwitch(int* indent, int* tmp, struct DoubleArray *mtrx);
+int MatrixGaussian(struct DoubleArray *mtrx1, struct DoubleArray *mtrx3);
 int MatrixProcessing(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struct DoubleArray *mtrx3, char **choice);
 
 int ErrorOut(int code);
@@ -109,7 +116,7 @@ int ReadingFile(FILE* f, struct DoubleArray *mtrx)
 			if( fscanf(f, "%lf", &num_lf) )
 			{
 				*j = num_lf;
-				printf("%d ---> %lf\n", count, num_lf);
+//				printf("%d ---> %lf\n", count, num_lf);
 				count++;
 			}
 			else
@@ -133,8 +140,6 @@ int ArrayInit(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, char **argv)
 	int code = OK;
 	FILE* f1 = WorkingFile(argv[1], &code);
 	code = ReadingFile(f1, mtrx1);
-
-	printf("\n\n");
 
 	FILE* f2 = WorkingFile(argv[2], &code);
 	code = ReadingFile(f2, mtrx2);
@@ -195,6 +200,99 @@ int MatrixMulti(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struct Dou
 	return code;
 }
 
+int copyMatrix(struct DoubleArray *mtrx_in, struct DoubleArray *mtrx_out)
+{
+	if ( (mtrx_in->data == NULL || mtrx_out->data == NULL) && (mtrx_in->col * mtrx_in->lines) > 1 && (mtrx_out->col * mtrx_out->lines) > 1 )
+		return NULL_COPY_MATRIX_ERROR;
+
+	if ( mtrx_in->col !=  mtrx_out->col || mtrx_in->lines != mtrx_out->lines )
+		return OTHER_SIZE_COPY_MATRIX_ERROR;
+
+	for ( int i = 0; i < mtrx_in->lines; i++ )
+	{
+		for ( int j = 0; j < mtrx_in->col; j++ )
+		{
+			mtrx_out->data[i][j] = mtrx_in->data[i][j];
+		}
+	}
+
+	return OK;
+
+}
+
+void maxFindingMatrix(double *max, int *tmp, int indent, struct DoubleArray *mtrx, int j)
+{
+	for (int i = 0; i < mtrx->lines - indent; i++)			//max finding
+	{
+		if ( fabs(mtrx->data[i][j]) > fabs(*max) )
+		{
+			*max = mtrx->data[i][j];
+			*tmp = i;
+		}
+	}
+}
+
+void linesSwitch(int *indent, int *tmp, struct DoubleArray *mtrx)
+{
+	/*
+	double num;
+	for (int i = 0; i < mtrx->col; i++)
+	{
+		num = mtrx->data[tmp][i];
+		mtrx->data[tmp][i] = mtrx->data[ mtrx->lines-1 - indent ][i];
+		mtrx->data[ mtrx->lines-1 - indent ][i] = num;
+	}
+	indent++;
+	*/
+
+	double* line = mtrx->data[*tmp];
+	mtrx->data[*tmp] = mtrx->data[ mtrx->lines-1 - *indent ];
+	mtrx->data[ mtrx->lines-1 - *indent ] = line;
+
+	*tmp = mtrx->lines-1 - *indent;
+	(*indent)++;
+}
+
+int MatrixGaussian(struct DoubleArray *mtrx1, struct DoubleArray *mtrx3)
+{
+	if ( mtrx1->col != mtrx1->lines )
+		return INCORRECT_MATRIX_SIZE_WHILE_GAUSSIAN;
+
+	int code = OK;
+
+	mtrx3->lines = mtrx1->lines;
+	mtrx3->col = mtrx1->col;
+	code = DynamicInit(mtrx3);
+
+	code = copyMatrix(mtrx1, mtrx3);
+
+	double max, k;
+	int tmp, indent = 0;
+	for (int j = 0; j < mtrx3->col; j++)
+	{
+		max = mtrx3->data[0][j];
+		tmp = 0;
+
+		maxFindingMatrix(&max, &tmp, indent, mtrx3, j);
+
+		linesSwitch(&indent, &tmp, mtrx3);
+
+		if ( max )
+		{
+			for (int i = 0; i < mtrx3->lines - indent; i++)			//Koef finding
+			{
+				k = -(mtrx3->data[i][j]/max);
+				for(int l = j; l < mtrx3->col; l++)
+				{
+					mtrx3->data[i][l] += mtrx3->data[tmp][l] * k;
+				}
+			}
+		}
+	}
+
+	return code;
+}
+
 int MatrixProcessing(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struct DoubleArray *mtrx3, char **choice)
 {
 	int code = OK;
@@ -208,7 +306,7 @@ int MatrixProcessing(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struc
 	}
 	else if(*choice[3] == '3')
 	{
-//		code = MatrixGaussian(mtrx1, mtrx2, mtrx3);
+		code = MatrixGaussian(mtrx1, mtrx3);
 	}
 	else
 		code = INCORRECT_CHOICE_ERROR;
@@ -233,5 +331,11 @@ int ErrorOut(int code)
 		printf("Matrices amount find error: You cant sum two different sized mamtrices!\n");
 	else if(code == INCORRECT_MATRIX_SIZE_WHILE_MULTIP)
 		printf("Matrices multiplicate find error: You cant multiplicate two different sized mamtrices, if columns first matrix not equal with rows second matrix!\n");
+	else if(code == NULL_COPY_MATRIX_ERROR)
+		printf("Cant copy nulls arrays(Function copyMatrix.\n");
+	else if(code == OTHER_SIZE_COPY_MATRIX_ERROR)
+		printf("Cant copy different sized matrices(Function copyMatrix.\n");
+	else if(code == INCORRECT_MATRIX_SIZE_WHILE_GAUSSIAN)
+		printf("Matrix gaussian find error: You cant use gaussian method on not square matrix!\n");
 	return code;
 }
