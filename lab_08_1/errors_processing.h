@@ -4,6 +4,6 @@
 #include "libs.h"
 
 int CommandInputChecking(const int argc, char **argv);
-int ErrorOut(const int code);
+int ErrorOut(const int code, char ** argv);
 
 #endif

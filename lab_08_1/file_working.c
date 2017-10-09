@@ -67,7 +67,6 @@ int fileWriteMatrix(const struct DoubleArray *mtrx, const char* outFile, const c
 	}
 	if (option == 'n')
 	{
-		printf("++++");
 		for (int i = 0; i < mtrx->lines; i++)
 		{
 			fprintf(f, "\n");

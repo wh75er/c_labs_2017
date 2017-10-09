@@ -23,4 +23,9 @@ matrix_processing.o: matrix_processing.h matrix_processing.c dependinces.h file_
 	$(CC) -c matrix_processing.c -o $@
 
 clean:
-	rm *.o tests/*.txt *.out
+	rm *.o tests/*.txt *.out tests/*.out
+
+func_test:
+	make
+	tests/cmpScr
+	make clean
