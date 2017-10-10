@@ -3,7 +3,7 @@
 
 #include "libs.h"
 
-int CommandInputChecking(const int argc, char **argv);
-int ErrorOut(const int code, char ** argv);
+int CommandInputChecking(struct args *args, const int argc, char** argv);
+int ErrorOut(const int code, const char* fileName);
 
 #endif

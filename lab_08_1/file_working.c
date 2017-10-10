@@ -19,6 +19,9 @@ int ReadingFile(FILE* f, struct DoubleArray *mtrx)
 
 	code = DynamicInit(mtrx);
 
+	if (code)
+		return code;
+
 	int stop = 0, count = 0;
 	double num_lf;
 	for (double **i = mtrx->data; i < mtrx->data+mtrx->lines; i++)
@@ -47,11 +50,12 @@ int ReadingFile(FILE* f, struct DoubleArray *mtrx)
 	return code;
 }
 
-int fileWriteMatrix(const struct DoubleArray *mtrx, const char* outFile, const char option)
+int fileWriteMatrix(struct DoubleArray *mtrx, const char* outFile, const char option)
 {
 	if( option != 'r' && option != 'n' )
 		return INCORRECT_CHOICE_WRITE_FILE_ERROR;
 
+	printf("%s\n", outFile);
 	FILE* f = fopen(outFile, "w");
 	if (option == 'r')
 	{
@@ -78,19 +82,20 @@ int fileWriteMatrix(const struct DoubleArray *mtrx, const char* outFile, const c
 		fprintf(f, "\n");
 	}
 
+	matrixFree(mtrx);
 	fclose(f);
 
 	return OK;
 
 }
 
-int writeResult(const struct DoubleArray *mtrx, char** argv)
+int writeResult(struct DoubleArray *mtrx, struct args * args)
 {
 	int code = OK;
-	if (*argv[3] == '3')
-		code = fileWriteMatrix(mtrx, argv[4], 'r');
+	if (*(args->choice) == '3')
+		code = fileWriteMatrix(mtrx, args->out, 'r');
 	else
-		code = fileWriteMatrix(mtrx, argv[4], 'n');
+		code = fileWriteMatrix(mtrx, args->out, 'n');
 
 	return code;
 }

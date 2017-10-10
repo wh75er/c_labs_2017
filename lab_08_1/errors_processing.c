@@ -1,19 +1,31 @@
 #include "errors_processing.h"
 
-int CommandInputChecking(const int argc, char **argv)
+int CommandInputChecking(struct args *args, const int argc, char** argv)
 {
-	if ( argc != 5 )                                             // .main.c mtrx1_in.txt mtrx2_in.txt choice mtrx_out
+	args->len = argc;				//./main.c 1 in1 in2 out ./main.c 3 in out
+	args->choice = argv[1];
+	args->in_1 = argv[2];
+	if ( *argv[1] == '3' )
+	{
+		args->in_2 = NULL;
+		args->out = argv[3];
+	}
+	else
+	{
+		args->in_2 = argv[3];
+		args->out = argv[4];
+	}
+	if ( argc > 5 )                                             // .main.c mtrx1_in.txt mtrx2_in.txt choice mtrx_out
 		return COMMAND_INPUT_ERROR;
-	if (*argv[3] != '1' && *argv[3] != '2' && *argv[3] != '3')
+	if (*argv[1] != '1' && *argv[1] != '2' && *argv[1] != '3')
 		return INCORRECT_CHOICE_ERROR;
 	return OK;
 }
 
-int ErrorOut(const int code, char **argv)
+int ErrorOut(const int code, const char* fileName)
 {
 	if (code == OK)
 		return OK;
-	const char* fileName = argv[4];
 	FILE* f = fopen(fileName, "w");
 	if(code == FILE_OPEN_ERROR)
 		fprintf(f, "File opening error!\n");

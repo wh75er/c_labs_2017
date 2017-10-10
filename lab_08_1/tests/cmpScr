@@ -9,7 +9,11 @@ for ((i = 0; i < 3; i++))
 do
 	for ((j = 1; j < 4; j++))
 	do
-		./main.out tests/func/in"$i"_1.txt tests/func/in"$i"_2.txt $j tests/out.txt
+		if [ $j -eq 3 ]; then
+			./main.out $j tests/func/in"$i"_1.txt tests/out.txt
+		else
+			./main.out $j tests/func/in"$i"_1.txt tests/func/in"$i"_2.txt tests/out.txt
+		fi
 		if cmp -s tests/out.txt tests/func/out"$i"_"$j".txt; then
 			echo Test $i with option - $j is GOOD
 		else

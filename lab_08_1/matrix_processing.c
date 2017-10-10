@@ -12,17 +12,19 @@ int DynamicInit(struct DoubleArray *mtrx)
 }
 
 
-int ArrayInit(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, char **argv)
+int ArrayInit(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, const char * fileIn1, const char *fileIn2)
 {
 	int code = OK;
-	const char* fileIn1 = argv[1];
-	const char* fileIn2 = argv[2];
 
 	FILE* f1 = WorkingFile(fileIn1, &code);
 	code = ReadingFile(f1, mtrx1);
 
-	FILE* f2 = WorkingFile(fileIn2, &code);
-	code = ReadingFile(f2, mtrx2);
+	if (fileIn2){
+		FILE* f2 = WorkingFile(fileIn2, &code);
+		code = ReadingFile(f2, mtrx2);
+	}
+	else
+		mtrx2->data = NULL;
 
 	return code;
 }
@@ -121,18 +123,18 @@ int MatrixGaussian(const struct DoubleArray *mtrx1, struct DoubleArray *mtrx3)
 	return code;
 }
 
-int MatrixProcessing(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struct DoubleArray *mtrx3, char **choice)
+int MatrixProcessing(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struct DoubleArray *mtrx3, const char* choice)
 {
 	int code = OK;
-	if (*choice[3] == '1')
+	if (*choice == '1')
 	{
 		code = MatrixAmount(mtrx1, mtrx2, mtrx3);
 	}
-	else if(*choice[3] == '2')
+	else if(*choice == '2')
 	{
 		code = MatrixMulti(mtrx1, mtrx2, mtrx3);
 	}
-	else if(*choice[3] == '3')
+	else if(*choice == '3')
 	{
 		code = MatrixGaussian(mtrx1, mtrx3);
 	}
@@ -140,4 +142,9 @@ int MatrixProcessing(struct DoubleArray *mtrx1, struct DoubleArray *mtrx2, struc
 		code = INCORRECT_CHOICE_ERROR;
 
 	return code;
+}
+
+void matrixFree(struct DoubleArray * mtrx)
+{
+	free(mtrx->data);
 }

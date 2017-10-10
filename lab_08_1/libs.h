@@ -26,4 +26,13 @@ struct DoubleArray
 	double **data;
 }mtrx1, mtrx2, mtrx3;
 
+struct args
+{
+	int len;
+	char* choice;
+	char* in_1;
+	char* in_2;
+	char* out;
+}cmd;
+
 #endif
