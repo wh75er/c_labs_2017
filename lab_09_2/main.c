@@ -51,14 +51,41 @@ int main(int argc, char **argv)
 		return 1;
 	if(isError(openFile(args.fileIn, &text.file)))
 		return 1;
-/*	if(isError(readFile(text.file, text.str)))
+	if(isError(readFile(text.file, text.str)))
 		return 1;
-	if(isError(stringProcessing(args.search, args.replace, text.str)))
+/*	if(isError(stringProcessing(args.search, args.replace, text.str)))
 		return 1;
 	if(isError(writeFile(args.fileOut, text.str)))
 		return 1;
 		*/
+	free(text.str);
+	fclose(text.file);
 	return 0;			
+}
+
+char* strReplace(const char* source, const char* search, const char* replace)
+{
+	
+}
+
+int stringProcessing(const char *search, const char *replace, char** str)
+{
+	const char* source = *str;
+	char* new_line = strReplace(source, search, replace);
+	free(*str);
+	*str = new_line;
+	return OK;
+}
+
+int readFile(FILE* f, char** str)
+{
+	size_t n = 0;	
+	ssize_t code = my_getdelim(str, &n, '\n', f);
+	if(code < 0)
+		return code;
+//	while(my_getdelim(str, &n, '\n', f) > 0);
+
+	return OK;
 }
 
 int openFile(const char* fileIn, FILE** f)
@@ -169,5 +196,13 @@ int isError(const int code)
 		printf("Check your input parameters!\n");
 	if(code == FILE_READING_ERROR)
 		printf("File reading error!\n");
+	if(code == POINTER_NULL)
+		printf("getDelim ERROR: check your input arguments!\n");
+	if(code == FILE_DISSAPOINT)
+		printf("getDelim ERROR: check your input stream. Current stream is null!\n");
+	if(code == MEM_REALLOC_ERROR)
+		printf("getDelim ERROR: memory reallocation error! realloc operation failed!\n");
+	if(code == EMPTY_BUFFER_ERROR)
+		printf("getDelim ERROR: failed to processing the buffer. Current buffer is null!\n");
 	return code;
 }
