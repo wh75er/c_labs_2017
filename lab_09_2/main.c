@@ -51,9 +51,9 @@ int main(int argc, char **argv)
 		return 1;
 	if(isError(openFile(args.fileIn, &text.file)))
 		return 1;
-	if(isError(readFile(text.file, text.str)))
+/*	if(isError(readFile(text.file, text.str)))
 		return 1;
-/*	if(isError(stringProcessing(args.search, args.replace, text.str)))
+	if(isError(stringProcessing(args.search, args.replace, text.str)))
 		return 1;
 	if(isError(writeFile(args.fileOut, text.str)))
 		return 1;
@@ -145,6 +145,8 @@ ssize_t my_getdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 		if (!array)
 			return MEM_REALLOC_ERROR;
 		*n += SIZE_OF_BUFF;
+		for(char* pa_k = array; *pa_k != '\0'; pa_k++)
+			*pa_k = '\0';
 	}
 	*lineptr = array;
 
