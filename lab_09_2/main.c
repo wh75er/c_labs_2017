@@ -51,9 +51,9 @@ int main(int argc, char **argv)
 		return 1;
 	if(isError(openFile(args.fileIn, &text.file)))
 		return 1;
-/*	if(isError(readFile(text.file, text.str)))
+	if(isError(readFile(text.file, text.str)))
 		return 1;
-	if(isError(stringProcessing(args.search, args.replace, text.str)))
+/*	if(isError(stringProcessing(args.search, args.replace, text.str)))
 		return 1;
 	if(isError(writeFile(args.fileOut, text.str)))
 		return 1;
@@ -80,10 +80,25 @@ int stringProcessing(const char *search, const char *replace, char** str)
 int readFile(FILE* f, char** str)
 {
 	size_t n = 0;	
-	ssize_t code = my_getdelim(str, &n, '\n', f);
-	if(code < 0)
-		return code;
-//	while(my_getdelim(str, &n, '\n', f) > 0);
+	char** strIn = (char**)malloc(sizeof(char*));
+	*strIn = NULL;
+	
+	ssize_t code = 1;
+	int size_of_array = n;
+	while(code > 0){
+		code = my_getdelim(strIn, &n, '\n', f);
+		size_of_array+=n;
+		if(code < 0)
+			return code;
+		*str = (char*)realloc(*str, size_of_array);
+		for(int i = 0; (*strIn)[i] != '\0'; i++){
+			int j;
+			for(j = 0; (*str)[j] != '\0'; j++);
+			(*str)[j] = (*strIn)[i];
+		}
+	}
+	free(*strIn);
+	free(strIn);
 
 	return OK;
 }
@@ -134,13 +149,14 @@ ssize_t my_getdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
 
 	char* array = *lineptr;
-	if(!array || *n < SIZE_OF_BUFF || !*n){
+	if(!array || !*n){
 		array = (char*)realloc(*lineptr, SIZE_OF_BUFF);
 		if (!array)
 			return MEM_REALLOC_ERROR;
 		*n = SIZE_OF_BUFF;
 	}	
 	else if(array && *n){
+		*n = 0;
 		array = (char*)realloc(*lineptr, *n + SIZE_OF_BUFF);
 		if (!array)
 			return MEM_REALLOC_ERROR;
@@ -152,12 +168,10 @@ ssize_t my_getdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 
 
 	int bytes = 0;
-	char buff[SIZE_OF_BUFF], *arrayOfIn, *arrayOfBuff, *pa;
+	char buff[SIZE_OF_BUFF], *arrayOfIn, *arrayOfBuff, *pa, *pa_l;
 	while(fgets(buff, SIZE_OF_BUFF, stream)){
-//		printf("%s-END\n", buff);
 		for (pa = buff; pa < buff + SIZE_OF_BUFF && *pa != delim && *pa != '\0'; pa++);
 		if (pa == buff + SIZE_OF_BUFF || *pa == '\0'){
-//			printf("OK\n");
 			bytes+= pa - buff;
 			arrayOfIn = *lineptr;
 			arrayOfBuff = buff;
@@ -168,6 +182,12 @@ ssize_t my_getdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 				}
 				arrayOfIn++;
 			}
+			array = NULL;
+			array = (char*)realloc(*lineptr, SIZE_OF_BUFF);
+			if (!array)
+				return MEM_REALLOC_ERROR;
+			*n += SIZE_OF_BUFF;
+			*lineptr = array;
 		}
 		else{
 			bytes+= pa - buff + 1;
@@ -180,9 +200,12 @@ ssize_t my_getdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 				}
 				arrayOfIn++;
 			}
-			char* pa_l;
-			for(pa_l = *lineptr; *pa_l != '\0'; pa_l++);
-			fseek(stream, pa_l - *lineptr + *n/128 - 1, SEEK_SET);
+
+			for(pa_l = buff; *pa_l != '\0'; pa_l++);
+//				printf("%d - end\n", pa_l - buff);
+//			printf("offset ---> %d\n", pa - buff);
+//			printf("offset ---> %d\n", pa_l - pa);
+			fseek(stream, -(pa_l - pa - 1), SEEK_CUR);
 			return bytes;
 		}
 	}
