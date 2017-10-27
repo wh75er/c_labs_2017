@@ -20,4 +20,4 @@ errorProcessing.o: errorProcessing.c errorProcessing.h fileWorking.h
 	$(CC) -c errorProcessing.c -o $@
 
 clean:
-	rm *.o *.out
+	rm *.o *.out tests/func/out?.txt

@@ -14,7 +14,6 @@ int main(int argc, char **argv)
 		return 1;
 	if(isError(stringProcessing(args.search, args.replace, text.str), args.fileOut, text.str, text.file))
 		return 1;
-	printf("%s\n", *text.str);
 	if(isError(writeFile(args.fileOut, text.str, OK), args.fileOut, text.str, text.file))
 		return 1;
 		
