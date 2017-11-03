@@ -50,12 +50,13 @@ ssize_t my_getdelim(char **lineptr, size_t *n, int delim, FILE *stream)
 	int bytes = 0;
 	char buff[SIZE_OF_BUFF], *arrayOfIn, *arrayOfBuff, *pa, *pa_l;
 	while(fgets(buff, SIZE_OF_BUFF, stream)){
-		for (pa = buff; pa < buff + SIZE_OF_BUFF && *pa != delim && *pa != '\0'; pa++);
+		for (pa = buff; pa < buff + SIZE_OF_BUFF && *pa != delim && *pa != '\0'; pa++)
+			puts(pa);
 		if (pa == buff + SIZE_OF_BUFF || *pa == '\0'){
 			bytes+= pa - buff;
 			arrayOfIn = *lineptr;
 			arrayOfBuff = buff;
-			while (arrayOfBuff != buff + bytes - 1){
+			while (arrayOfBuff != buff + bytes){ // - 1){
 				if(*arrayOfIn == '\0'){
 					*arrayOfIn = *arrayOfBuff;
 					arrayOfBuff++;
@@ -119,7 +120,7 @@ char* strReplace(const char* source, const char* search, const char* replace)
 	printf("count ---> %d\n", count);
 	#endif
 	int newSubjLen = (strLen(replace) - strLen(search))*count + strLen(source);
-	char* dest = malloc(newSubjLen);
+	char* dest = (char* )malloc(newSubjLen);
 
 	pa = source;
 	const char* pa_j = source - 1;
