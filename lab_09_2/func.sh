@@ -4,7 +4,7 @@ make
 
 echo Func tests:
 echo
-for ((i = 0; i < 4; i++))
+for ((i = 0; i < 5; i++))
 	do
 		./main.out tests/func/in$i.txt tests/func/out$i.txt -s 2 -r av 
 		if cmp -s tests/func/out$i.txt tests/func/out_$i.txt
@@ -13,7 +13,7 @@ for ((i = 0; i < 4; i++))
 		else
 			echo "Test $i is BAD"
 		fi
-		if [ $i == 7 ]; then
+		if [ $i == 4 ]; then
 			echo "Tests PASSED"
 		fi
 	done

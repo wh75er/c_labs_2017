@@ -11,9 +11,10 @@ char *my_strchr(const char *s, int i)
 
 char* my_strpbrk(const char* s, const char* accept)
 {
-	for(const char* pa = s; pa != '0'; pa++){
-		for(const char* pa_ac = accept; pa_ac != '0' && *pa_ac != *pa; pa_ac++);
-		if(*pa_ac != *pa)
+	for(const char* pa = s; *pa != '\0'; pa++){
+		const char* pa_ac;
+		for(pa_ac = accept; *pa_ac != '\0' && *pa_ac != *pa; pa_ac++);
+		if(*pa_ac == *pa)
 			return (char*)pa;
 		else
 			return NULL;

@@ -4,6 +4,7 @@ int main()
 {
 	int count = 1;
 
+	//
 	char* test_1_finding_chr = "afqwehfqi1245";
 	char test_1_chr = 'i';
 	
@@ -15,6 +16,7 @@ int main()
 		printf("Test %d is BAD\n", count);
 	count++;
 
+	//
 	char* test_2_finding_chr = "afqwehfqi1245";
 	char test_2_chr = '5';
 	
@@ -42,6 +44,28 @@ int main()
 	
 	myRsl = my_strchr(test_4_null, test_4_chr);
 	rsl = strchr(test_4_null, test_4_chr);
+	if (myRsl == rsl)
+		printf("Test %d is OK\n", count);
+	else
+		printf("Test %d is BAD\n", count);
+	count++;
+	
+	//
+
+	char* test_5_null = "afqwehfqi1245";
+	char* test_5_chr = "man";
+	myRsl = my_strpbrk(test_5_null, test_5_chr);
+	rsl = strpbrk(test_5_null, test_5_chr);
+	if (myRsl == rsl)
+		printf("Test %d is OK\n", count);
+	else
+		printf("Test %d is BAD\n", count);
+	count++;
+
+	char* test_6_null = "afqwehfqi1245";
+	char* test_6_chr = "jn";
+	myRsl = my_strpbrk(test_6_null, test_6_chr);
+	rsl = strpbrk(test_6_null, test_6_chr);
 	if (myRsl == rsl)
 		printf("Test %d is OK\n", count);
 	else

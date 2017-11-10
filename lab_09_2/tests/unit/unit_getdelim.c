@@ -25,7 +25,7 @@ FILE *streamInit(const char *string, void *buf) {
 
 TEST (my_getdelim, spacesPass) {
 	char* str = NULL;
-	size_t buffsize = 1024;
+	size_t buffsize = 0;
 	void* buff = malloc(2048);
 	FILE* stream = streamInit(test_1, buff);	
 	ssize_t status = 0;
@@ -36,19 +36,20 @@ TEST (my_getdelim, spacesPass) {
 		result = strcat(result, str);
 		free(str);
 		str = NULL;
-		buffsize = 1024;
+		buffsize = 0;
 	}
 
 	ASSERT_STREQ("Happy birthday 30\n", result);
 
 	free(str);
 	free(result);
+	free(buff);
 	fclose(stream);
 }
 
 TEST (my_getdelim, withoutSpacesPass) {
 	char* str = NULL;
-	size_t buffsize = 1024;
+	size_t buffsize = 0;
 	void* buff = malloc(2048);
 	FILE* stream = streamInit(test_2, buff);	
 	ssize_t status = 0;
@@ -56,17 +57,17 @@ TEST (my_getdelim, withoutSpacesPass) {
 	memset(result, '\0', 4096);
 
 	while(my_getdelim(&str, &buffsize, ' ', stream) > 0) {
-		printf("%s\n", str);
 		result = strcat(result, str);
 		free(str);
 		str = NULL;
-		buffsize = 1024;
+		buffsize = 0;
 	}
 
 	ASSERT_STREQ("LetsTryThis\n", result);
 
 	free(str);
 	free(result);
+	free(buff);
 	fclose(stream);
 }
 
