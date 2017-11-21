@@ -1,3 +1,7 @@
+ifndef VERBOSE
+.SILENT:
+endif
+
 CC := gcc
 
 param := -Wall -Werror -std=c99

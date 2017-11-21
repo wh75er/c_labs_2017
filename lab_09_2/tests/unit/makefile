@@ -1,4 +1,6 @@
-#makefile
+ifndef VERBOSE
+.SILENT:
+endif
 CC := g++
 
 CFLAGS := -lgtest_main -lgtest -pthread
