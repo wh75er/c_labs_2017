@@ -33,43 +33,40 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	
-	int wordLen = 0;
-	double wordLenAvarage = 0;
+	int wordLen = 0; double wordLenAvarage = 0, count = 0;
 	char* s = fgets(buffer, MAX_BUFFER_LEN, f);
 	while(s) {
-		printf("%s\n", buffer);
 		for(int i = 0; i < MAX_BUFFER_LEN - 1 && buffer[i] != '\0'; i++) {
 			if(buffer[i] == ' ') {
-				wordLenAvarage += wordLen;
-				wordLenAvarage /= 2;
+				count++;
+				wordLenAvarage = wordLenAvarage + (wordLen - wordLenAvarage)/count;
 				wordLen = 0;
 			}
 			else if(buffer[i] != '\0' && buffer[i] != '\n') {
 				wordLen++;
 			}
 			if(buffer[i+1] == '\0' && !s) {
-				wordLenAvarage += wordLen;
-				wordLenAvarage /= 2;
+				count++;
+				wordLenAvarage = wordLenAvarage + (wordLen - wordLenAvarage)/count;
 				wordLen = 0;
 			}
 		}
-//		for(int i = 0; i < MAX_BUFFER_LEN; i++)
-//			buffer[i] = '\0';
 		s = fgets(buffer, MAX_BUFFER_LEN, f);
 	}
 	if(!s) {
 		wordLen = 0;
 		for(int i = 0; i < MAX_BUFFER_LEN - 1 && buffer[i] != '\0'; i++) {
 			if(buffer[i] == ' ') {
+				count++;
+				wordLenAvarage = wordLenAvarage + (wordLen - wordLenAvarage)/count;
 				wordLen = 0;
 			}
 			else if(buffer[i] != '\0' && buffer[i] != '\n') {
 				wordLen++;
 			}
 			if(buffer[i+1] == '\0' && !s) {
-				wordLenAvarage += wordLen;
-				if(wordLenAvarage > wordLen)
-					wordLenAvarage /= 2;
+				count++;
+				wordLenAvarage = wordLenAvarage + (wordLen - wordLenAvarage)/count;
 				wordLen = 0;
 			}
 		}
