@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 	printf("%s", buffer);
 	int wordLen = 0;
 	double wordLenAmount = 0, count = 0;
-	for(int i = 0; buffer[i] < MAX_BUFFER_LEN - 1 && buffer[i] != '\0'; i++) {
+	for(int i = 0; i < MAX_BUFFER_LEN - 1 && buffer[i] != '\0'; i++) {
 		if(buffer[i] == ' ') {
 			wordLenAmount += wordLen;
 			count++;
