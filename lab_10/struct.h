@@ -32,3 +32,16 @@ void push(node_t** head, int item)
                 *head = tmp;
         }
 }
+
+int len(const node_t *head)
+{
+	node_t* tmp = (node_t*)head;
+	int count = 0;
+
+	while(tmp) {
+		count++;
+		tmp = tmp->next;
+	}
+
+	return count;
+}

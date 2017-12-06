@@ -8,6 +8,7 @@ enum{
 	ARGS_ERROR,
 	FAILED_TO_INIT,
 	REVERSE_NULL_NODE_ERROR,
+	NOTHING_TO_SORT,
 };
 
 
@@ -60,15 +61,58 @@ int main(int argc, char **argv)
 
 
 
-//int (*comparator)(const void *, const void *))
-//{
-//}
+int cmp(const void *a, const void *b)
+{
+	if(*((int*)a) > *((int*)b))
+		return 1;
+	if(*((int*)a) == *((int*)b))
+		return 0;
+	if(*((int*)a) < *((int*)b))
+		return -1;
+}
 
 
 
-//node_t* sorted_merge(node_t **head_a, node_t **head_b, int (*comparator)(const void *, const void *))
-//{
-//}
+node_t* sorted_merge(node_t **head_a, node_t **head_b, int (*cmp)(const void *a, const void *b))
+{
+	node_t* mergedNode = NULL;
+
+	if(len(*head_a) < len(*head_b)) {
+		node_t *tmp = *head_b;
+		*head_b = *head_a;
+		*head_a = tmp;
+	}
+
+	int currentVar, countBpass = 0, count = 0;
+	node_t* a = *head_a, *b, *prev = *head_a;
+	while(a) {
+		b = *head_b;
+		count = 0;
+		while(b) {
+			count++;
+			if(cmp((int*)b->data, (int*)a->data) < 0  || !cmp((int*)b->data, (int*)a->data)) {
+				if(count > countBpass) {
+					push(&mergedNode, *((int*)b->data));
+					countBpass++;
+				}
+			}
+			b = b->next;
+		}
+		push(&mergedNode, *((int*)a->data));
+		prev = a;
+		a = a->next;
+	}
+	b = *head_b;
+	while(b) {
+		if(cmp((int*)b->data, (int*)prev->data) > 0) 
+			push(&mergedNode, *((int*)b->data));
+		b = b->next;
+	}
+	
+	
+
+	return mergedNode;
+}
 
 
 
@@ -97,8 +141,22 @@ void front_back_split(node_t *head, node_t **back)
 
 
 
-void bubbleSort(node_t **head)
+void bubbleSort(node_t **head, int (*cmp)(const void *a, const void *b))
 {
+	int length = len(*head);
+	node_t *tmp;
+	for(int i = 0; i < length; i++)
+	{
+		tmp = *head;
+		while(tmp->next){
+			if(cmp((int*)tmp->data, (int*)(tmp->next)->data) > 0) {
+				int tmpSwap = *((int*)tmp->data);
+				*((int*)tmp->data) = *((int*)(tmp->next)->data);
+				*((int*)(tmp->next)->data) = tmpSwap;
+			}
+			tmp = tmp->next;
+		}
+	}
 }
 
 
@@ -107,13 +165,34 @@ int sort(node_t **mergedHead, node_t **head)
 {
 	if(!*head)
 		return REVERSE_NULL_NODE_ERROR;
+	if(len(*head) == 1)
+		return NOTHING_TO_SORT;
 
 	node_t *back = NULL;
 	front_back_split(*head, &back);
 
-	tmp = back;
+	bubbleSort(head, cmp);
+	bubbleSort(&back, cmp);
 
-//	*mergedHead = sorted_merge(head, &back, int (*comparator)(const void *, const void *));
+	node_t *tmp = *head;
+	while(tmp) {
+		printf("--%d\n", *((int *)tmp->data));
+		tmp = tmp->next;
+	}
+
+	tmp = back;
+	while(tmp) {
+		printf("%d\n", *((int *)tmp->data));
+		tmp = tmp->next;
+	}
+
+	*mergedHead = sorted_merge(head, &back, cmp);
+
+	tmp = *mergedHead;
+	while(tmp) {
+		printf("~%d\n", *((int *)tmp->data));
+		tmp = tmp->next;
+	}
 
 	return OK;
 }
@@ -186,5 +265,7 @@ int isError(int code)
 		printf("Failed to init node!\n");
 	if(code == REVERSE_NULL_NODE_ERROR)
 		printf("You cant reverse null node!\n");
+	if(code == NOTHING_TO_SORT)
+		printf("There is nothing to do with node, which have only one element.\n");
 	return code;
 }
