@@ -18,44 +18,37 @@ int reverse(node_t **head);
 int sort(node_t **mergedHead, node_t **head);
 
 int argsInit(int argc);
-int isError(int code);
+int isError(int code, node_t **head);
 
 
 
 int main(int argc, char **argv)
 {
 	FILE* f;
-	if(isError(argsInit(argc))) {
+	if(isError(argsInit(argc), NULL)) {
 		return 1;
 	}
-	if(isError(fileOpen(&f, argv[1]))) {
+	if(isError(fileOpen(&f, argv[1]), NULL)) {
 		return 1;
 	}
 	node_t *head = NULL;
-	if(isError(initNode(&head, f))) {
+	if(isError(initNode(&head, f), &head)) {
+		fclose(f);
 		return 1;
 	}
-#ifdef DEBUG
-	node_t *tmp = head;
-	while(tmp) {
-		printf("--%d\n", *((int *)tmp->data));
-		tmp = tmp->next;
-	}
-#endif
-	if(isError(reverse(&head))) {
+	if(isError(reverse(&head), &head)) {
 		return 1;
 	}
-#ifdef DEBUG
-	tmp = head;
-	while(tmp) {
-		printf("%d\n", *((int *)tmp->data));
-		tmp = tmp->next;
-	}
-#endif
-	node_t *mergedHead;
-	if(isError(sort(&mergedHead, &head))) {
+	node_t *mergedHead = NULL;
+	if(isError(sort(&mergedHead, &head), &head)) {
+		freeMem(&mergedHead);
 		return 1;
 	}
+
+	//write to file(result and errors)
+
+	freeMem(&head);
+	freeMem(&mergedHead);
 	return 0;
 }
 
@@ -109,7 +102,8 @@ node_t* sorted_merge(node_t **head_a, node_t **head_b, int (*cmp)(const void *a,
 		b = b->next;
 	}
 	
-	
+	freeMem(head_a);
+	freeMem(head_b);
 
 	return mergedNode;
 }
@@ -175,24 +169,30 @@ int sort(node_t **mergedHead, node_t **head)
 	bubbleSort(&back, cmp);
 
 	node_t *tmp = *head;
+#ifdef DEBUG
 	while(tmp) {
 		printf("--%d\n", *((int *)tmp->data));
 		tmp = tmp->next;
 	}
+#endif
 
+#ifdef DEBUG
 	tmp = back;
 	while(tmp) {
 		printf("%d\n", *((int *)tmp->data));
 		tmp = tmp->next;
 	}
+#endif
 
 	*mergedHead = sorted_merge(head, &back, cmp);
 
+#ifdef DEBUG
 	tmp = *mergedHead;
 	while(tmp) {
 		printf("~%d\n", *((int *)tmp->data));
 		tmp = tmp->next;
 	}
+#endif
 
 	return OK;
 }
@@ -226,6 +226,7 @@ int initNode(node_t **head, FILE *f)
 {
 	*head = NULL;
 	int num;
+
 	while(!feof(f)) {
 		if(fscanf(f, "%d", &num)) {
 			push(head, num);
@@ -233,6 +234,8 @@ int initNode(node_t **head, FILE *f)
 		else
 			return FAILED_TO_INIT;
 	}
+
+	fclose(f);
 	return OK;
 }
 
@@ -255,17 +258,28 @@ int argsInit(int argc)
 	return OK;
 }
 
-int isError(int code)
+int isError(int code, node_t **head)
 {
-	if(code == FILE_OPEN_ERROR)
+	if(code == FILE_OPEN_ERROR) {
+		freeMem(head);
 		printf("File open error! Check your input.\n");
-	if(code == ARGS_ERROR)
+	}
+	if(code == ARGS_ERROR) {
+		freeMem(head);
 		printf("Input parameter error! Check your arguments.\n");
-	if(code == FAILED_TO_INIT)
+	}
+	if(code == FAILED_TO_INIT) {
+		freeMem(head);
 		printf("Failed to init node!\n");
-	if(code == REVERSE_NULL_NODE_ERROR)
+	}
+	if(code == REVERSE_NULL_NODE_ERROR) {
+		freeMem(head);
 		printf("You cant reverse null node!\n");
-	if(code == NOTHING_TO_SORT)
+	}
+	if(code == NOTHING_TO_SORT) {
+		freeMem(head);
 		printf("There is nothing to do with node, which have only one element.\n");
+	}
+
 	return code;
 }

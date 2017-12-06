@@ -45,3 +45,15 @@ int len(const node_t *head)
 
 	return count;
 }
+
+void freeMem(node_t **head)
+{
+	if(head && *head) {
+		node_t *tmp = *head;
+		while(tmp) {
+			free(tmp->data);
+			tmp = tmp->next;
+	}
+		free(*head);
+	}
+}
