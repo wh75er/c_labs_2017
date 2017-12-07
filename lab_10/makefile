@@ -1,14 +1,22 @@
+ifndef VERBOSE
+.SILENT:
+endif
+
 CC := gcc
 OBJ := nodeProcessing.o supFunc.o struct.o
 
-#main : main.out
-
+mainFile : main.out rmObjc
 
 main.out : $(OBJ) main.o
 	$(CC) $^ -o $@
+	@echo "Finished"
 
 %.o : %.c *.h
 	$(CC) -c $<
+	@echo "-DONE"
+
+rmObjc:
+	rm *.o
 
 clean:
 	rm *.o *.out
