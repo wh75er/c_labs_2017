@@ -12,7 +12,7 @@ enum{
 };
 
 #include "struct.h"
-#include "stdlib.h"
+#include <stdlib.h>
 #define DEFAULT_SIZE 100
 
 

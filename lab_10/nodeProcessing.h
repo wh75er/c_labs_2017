@@ -3,7 +3,6 @@
 
 
 #include "libs.h"
-#include "nodeProcessing.c"
 
 int reverse(node_t **head);
 int sort(node_t **mergedHead, node_t **head);

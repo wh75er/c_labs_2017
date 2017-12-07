@@ -62,7 +62,7 @@ int isError(int code, node_t **head, const char* name)
                 fclose(f);
         }
         if(code == ARGS_ERROR) {
-                FILE *f = fopen(name, "w");
+                FILE *f = fopen("emergencyOut_error", "w");
                 freeMem(head);
                 fprintf(f, "Input parameter error! Check your arguments.\n");
                 fclose(f);
