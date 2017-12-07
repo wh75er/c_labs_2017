@@ -187,30 +187,10 @@ int sort(node_t **mergedHead, node_t **head)
 	bubbleSort(&back, cmp);
 
 	node_t *tmp = *head;
-#ifdef DEBUG
-	while(tmp) {
-		printf("--%d\n", *((int *)tmp->data));
-		tmp = tmp->next;
-	}
-#endif
 
-#ifdef DEBUG
-	tmp = back;
-	while(tmp) {
-		printf("%d\n", *((int *)tmp->data));
-		tmp = tmp->next;
-	}
-#endif
 
 	*mergedHead = sorted_merge(head, &back, cmp);
 
-#ifdef DEBUG
-	tmp = *mergedHead;
-	while(tmp) {
-		printf("~%d\n", *((int *)tmp->data));
-		tmp = tmp->next;
-	}
-#endif
 
 	return OK;
 }
