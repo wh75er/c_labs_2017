@@ -9,7 +9,7 @@ mainFile : main.out rmObjc
 
 main.out : $(OBJ) main.o
 	$(CC) $^ -o $@
-	@echo "Finished"
+	@echo "Compiling finished"
 
 %.o : %.c *.h
 	$(CC) -c $<
@@ -19,4 +19,4 @@ rmObjc:
 	rm *.o
 
 clean:
-	rm *.o *.out
+	rm *.out
