@@ -3,12 +3,12 @@
 
 void* pop_front(node_t **head)
 {	
-	if(!(*head->next))
+	if(!(*head)->next)
 		return NULL;
 
-	void* data = *head->data;
+	void* data = (*head)->data;
 	node_t *tmp = *head;
-	*head = *head->next;
+	*head = (*head)->next;
 	free(tmp);
 
 	return data;
