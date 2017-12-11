@@ -3,7 +3,7 @@ ifndef VERBOSE
 endif
 CC := g++
 
-CFLAGS := -lgtest_main -lgtest -pthread
+CFLAGS := -lgtest_main -lgtest -pthread -g
 OBJC := ../../nodeProcessing.o ../../struct.o ../../smallFunctions/sub_func.o
 
 mainFile: unit_tests.out rm
