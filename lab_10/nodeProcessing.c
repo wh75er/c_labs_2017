@@ -30,8 +30,7 @@ node_t* sorted_merge(node_t **head_a, node_t **head_b, int (*cmp)(const void *a,
                 count = 0;
                 while(b) {
                         count++;
-                        if(cmp((int*)b->data, (int*)a->data) < 0  || !cmp((int*)b->data, (int*
-)a->data)) {
+                        if(cmp((int*)b->data, (int*)a->data) <= 0) {
                                 if(count > countBpass) {
                                         push(&mergedNode, *((int*)b->data));
                                         countBpass++;
