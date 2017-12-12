@@ -44,7 +44,6 @@ int cmpLinkedList(node_t *a, node_t *b) {
 	return 1;
 }
 
-/*
 TEST (pop_front, POP_ELEMENT) {
 	push(&TEST_1_POP_FRONT, 6);		//TEST INIT
 	push(&TEST_1_POP_FRONT, 5);
@@ -58,10 +57,10 @@ TEST (pop_front, POP_ELEMENT) {
 
 	ASSERT_EQ(cmpLinkedList(TEST_1_POP_FRONT, result), 1);
 
-	freeMem(&result);
-	freeMem(&TEST_1_POP_FRONT);
+//	freeMem(&result);
+//	freeMem(&TEST_1_POP_FRONT);
 }
-*/
+
 TEST (insert, INSERT_ELEMENT) {
 	push(&TEST_2_INSERT, 6);       	//TEST INIT
 	push(&TEST_2_INSERT, 5);
@@ -75,16 +74,17 @@ TEST (insert, INSERT_ELEMENT) {
 
 	node_t *elem = (node_t*)malloc(sizeof(node_t));
 	elem->data = malloc(sizeof(int));
+	elem->next = NULL;
 	*((int*)elem->data) = 9;
 
 	insert(&TEST_2_INSERT, elem,TEST_2_INSERT->next->next);
-/*
+
 	ASSERT_EQ(cmpLinkedList(TEST_2_INSERT, result), 1);
-*/	
+
 	freeMem(&result);
 	freeMem(&TEST_2_INSERT);
-	free(elem->data);
-	free(elem);
+	//free(elem->data);
+	//free(elem);
 }
 /*
 TEST (insert, INSERT_ELEMENT_BEFORE_HEAD) {

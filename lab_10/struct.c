@@ -38,12 +38,11 @@ int len(const node_t *head)
 
 void freeMem(node_t **head)
 {
-        if(head && *head) {
-                node_t *tmp = *head;
-                while(tmp) {
-                        free(tmp->data);
-                        tmp = tmp->next;
-        }
-                free(*head);
-        }
+	if(!*head)
+		return;
+	
+	freeMem(&(*head)->next);
+
+	free((*head)->data);
+	free(*head);
 }
