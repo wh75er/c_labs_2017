@@ -81,12 +81,12 @@ TEST (insert, INSERT_ELEMENT) {
 
 	ASSERT_EQ(cmpLinkedList(TEST_2_INSERT, result), 1);
 
-	freeMem(&result);
-	freeMem(&TEST_2_INSERT);
+	//freeMem(&result);
+	//freeMem(&TEST_2_INSERT);
 	//free(elem->data);
 	//free(elem);
 }
-/*
+
 TEST (insert, INSERT_ELEMENT_BEFORE_HEAD) {
 	push(&TEST_3_INSERT, 6);       	//TEST INIT
 	push(&TEST_3_INSERT, 5);
@@ -107,9 +107,9 @@ TEST (insert, INSERT_ELEMENT_BEFORE_HEAD) {
 	ASSERT_EQ(cmpLinkedList(TEST_3_INSERT, result), 1);
 	
 	
-	freeMem(&result);
-	freeMem(&TEST_3_INSERT);
-	free(elem->data);
-	free(elem);
+//	freeMem(&result);
+//	freeMem(&TEST_3_INSERT);
+//	free(elem->data);
+//	free(elem);
 }
-*/
+
