@@ -25,7 +25,8 @@ int main(int argc, char **argv)
 	}
 	writeToFile(OK, mergedHead, argv[2]);
 
-	freeMem(&head);
+	if(head)
+		freeMem(&head);
 	freeMem(&mergedHead);
 	return 0;
 }

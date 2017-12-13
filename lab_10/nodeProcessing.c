@@ -52,6 +52,9 @@ node_t* sorted_merge(node_t **head_a, node_t **head_b, int (*cmp)(const void *a,
         freeMem(head_a);
         freeMem(head_b);
 
+		*head_a = NULL;
+		*head_b = NULL;
+
         return mergedNode;
 }
 
@@ -77,7 +80,7 @@ void front_back_split(node_t *head, node_t **back)
                 *back = adresses[count / 2 + count % 2];
         }
 
-        free(adresses);
+       	free(adresses);
 }
 
 

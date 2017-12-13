@@ -3,24 +3,27 @@
 
 void push(node_t** head, int item)
 {
-        node_t* tmp = (node_t*)malloc(sizeof(node_t));
-        if(!tmp) {
-                exit(0);
-        }
-                tmp->data = malloc(sizeof(int));
-        *((int *)tmp->data) = item;
-        tmp->next = NULL;
+	if(!head)
+		return;
+	
+	node_t* tmp = (node_t*)malloc(sizeof(node_t));
+	if(!tmp) {
+		exit(0);
+	}
+	tmp->data = malloc(sizeof(int));
+	*((int *)tmp->data) = item;
+	tmp->next = NULL;
 
-        if(*head) {
-                node_t* tmp_next = *head;
-                while(tmp_next->next) {
-                        tmp_next = tmp_next->next;
-                }
-                tmp_next->next = tmp;
-        }
-        else {
-                *head = tmp;
-        }
+	if(*head) {
+		node_t* tmp_next = *head;
+		while(tmp_next->next) {
+			tmp_next = tmp_next->next;
+		}
+		tmp_next->next = tmp;
+	}
+	else {
+		*head = tmp;
+	}
 }
 
 int len(const node_t *head)
@@ -38,11 +41,15 @@ int len(const node_t *head)
 
 void freeMem(node_t **head)
 {
-	if(!(*head))
+	if(!*head)
 		return;
-	
-	*head = (*head)->next;
-	freeMem(head);
 
-	free(*head);
+	node_t *tmp = *head;
+
+	while(tmp) {
+		*head = tmp;
+		tmp = tmp->next;
+		free((*head)->data);
+		free(*head);
+	}
 }
