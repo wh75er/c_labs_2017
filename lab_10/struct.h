@@ -16,6 +16,7 @@ struct node
  
 
 void push(node_t** head, int item);
+void pushNode(node_t **source, node_t **node, node_t **dest);
 int len(const node_t *head);
 void freeMem(node_t **head);
 

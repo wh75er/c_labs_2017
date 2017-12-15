@@ -26,6 +26,37 @@ void push(node_t** head, int item)
 	}
 }
 
+void pushNode(node_t** source, node_t **node, node_t** dest)
+{
+	node_t *grab = *node;
+
+	if(*node == *source) {
+		grab = *source;
+		*source = (*source)->next;
+		*node = *source;
+	} else {
+		node_t *tmp = *source;
+		while(tmp->next != *node) {
+			tmp = tmp->next;
+		}
+		grab = *node;
+		tmp->next = tmp->next->next;
+		*node = (*node)->next;
+	}
+	
+	//now we have to put grab inside dest in the last position;
+	if(!*dest) {
+		*dest = grab;
+		grab->next = NULL;
+	} else {
+		node_t* tmp = *dest;
+		while(tmp->next)
+			tmp = tmp->next;
+		tmp->next = grab;
+		grab->next = NULL;
+	}
+}
+
 int len(const node_t *head)
 {
         node_t* tmp = (node_t*)head;

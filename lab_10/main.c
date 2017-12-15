@@ -28,5 +28,6 @@ int main(int argc, char **argv)
 	if(head)
 		freeMem(&head);
 	freeMem(&mergedHead);
+
 	return 0;
 }

@@ -23,34 +23,25 @@ node_t* sorted_merge(node_t **head_a, node_t **head_b, int (*cmp)(const void *a,
                 *head_a = tmp;
         }
 
-        int currentVar, countBpass = 0, count = 0;
+        int flag = 0;
         node_t* a = *head_a, *b, *prev = *head_a;
         while(a) {
                 b = *head_b;
-                count = 0;
                 while(b) {
-                        count++;
                         if(cmp((int*)b->data, (int*)a->data) <= 0) {
-                                if(count > countBpass) {
-                                        push(&mergedNode, *((int*)b->data));
-                                        countBpass++;
-                                }
+							pushNode(head_b, &b, &mergedNode);
+							flag = 1;
                         }
-                        b = b->next;
+						if(!flag)
+	                        b = b->next;
+						flag = 0;
                 }
-                push(&mergedNode, *((int*)a->data));
-                prev = a;
-                a = a->next;
+				pushNode(head_a, &a, &mergedNode);
         }
         b = *head_b;
-        while(b) {
-                if(cmp((int*)b->data, (int*)prev->data) > 0)
-                        push(&mergedNode, *((int*)b->data));
-                b = b->next;
+		while(b) {
+			pushNode(head_b, &b, &mergedNode);
         }
-
-        freeMem(head_a);
-        freeMem(head_b);
 
 		*head_a = NULL;
 		*head_b = NULL;
@@ -117,9 +108,6 @@ int sort(node_t **mergedHead, node_t **head)
 
         bubbleSort(head, cmp);
         bubbleSort(&back, cmp);
-
-        node_t *tmp = *head;
-
 
         *mergedHead = sorted_merge(head, &back, cmp);
 
