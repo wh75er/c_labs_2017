@@ -45,8 +45,8 @@ void pop(list** head, list** node) //remove node with adress node;
 		return;
 	if(*head == *node) {
 		*head = (*head)->next;
-		*node = (*node)->next;
 		free(*node);
+		*node = *head;
 	} else {
 		list* tmp = *head;
 		while(tmp->next) {
