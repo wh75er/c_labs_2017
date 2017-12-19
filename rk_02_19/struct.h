@@ -11,10 +11,11 @@ struct linked_list
 	char name[MAX_LEN];
 	char phone[MAX_LEN];
 	char adress[MAX_LEN];
+	list* next;
 };
 
 
-void push(list **head, char *n, char* p, char* a);
+void push(list **head, char *n, char* p, char* a)
 {
 	list* tmp = (list*)malloc(sizeof(list));
 	if(tmp == NULL){
@@ -42,7 +43,7 @@ void pop(list** head, list* node) //remove node with adress node;
 {
 	if(!*head)
 		return;
-	if(*head == *node) {
+	if(*head == node) {
 		*head = (*head)->next;
 		free(node);
 	} else {
@@ -52,7 +53,7 @@ void pop(list** head, list* node) //remove node with adress node;
 				tmp->next = tmp->next->next;
 				free(node);
 			}
-			tmp = tmp->next
+			tmp = tmp->next;
 		}
 	}
 }
@@ -72,4 +73,18 @@ list* search(list **head, char* p)
 	}
 	
 	return res;
+}
+
+void printList(const list* head)
+{
+	if(!head)
+		return;
+	list* tmp = (list*)head;
+	
+	printf("\n\tNAME\t|\tPHONE\t|\tADRESS\t|\n");
+	while(tmp) {
+		printf("\n\t%s\t\t%s\t\t%s\n", tmp->name, tmp->phone, tmp->adress);
+		tmp = tmp->next;
+	}
+	printf("\n");
 }
