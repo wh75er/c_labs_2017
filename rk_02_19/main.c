@@ -45,6 +45,10 @@ int main()
 	printList(head);
 
 	
+	if(n)
+		free(inputStr);
+	if(head)
+		freeMem(head);
 
 
 	return 0;

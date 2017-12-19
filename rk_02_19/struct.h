@@ -46,7 +46,7 @@ void pop(list** head, list** node) //remove node with adress node;
 	if(*head == *node) {
 		*head = (*head)->next;
 		*node = (*node)->next;
-		free(node);
+		free(*node);
 	} else {
 		list* tmp = *head;
 		while(tmp->next) {
@@ -121,3 +121,11 @@ void removeEOL(char **str)
 	}
 }
 
+void freeMem(list *head)
+{
+	if(!head)
+		return;
+
+	freeMem(head->next);
+	free(head);
+}
