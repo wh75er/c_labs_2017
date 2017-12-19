@@ -39,22 +39,42 @@ void push(list **head, char *n, char* p, char* a)
 	}
 }
 
-void pop(list** head, list* node) //remove node with adress node;
+void pop(list** head, list** node) //remove node with adress node;
 {
 	if(!*head)
 		return;
-	if(*head == node) {
+	if(*head == *node) {
 		*head = (*head)->next;
+		*node = (*node)->next;
 		free(node);
 	} else {
 		list* tmp = *head;
-		while(tmp->next && tmp->next != node) {
-			if(tmp->next == node) {
+		while(tmp->next) {
+			if(tmp->next == *node) {
 				tmp->next = tmp->next->next;
-				free(node);
+				free(*node);
+				*node = tmp->next;
+				break;
 			}
 			tmp = tmp->next;
 		}
+	}
+}
+
+void filter(list **head, const char* n)
+{
+	if(!*head)
+		return;
+	list *tmp = *head;
+	int flag = 0;
+	while(tmp) {
+		flag = 0;
+		if(strcmp(tmp->name, n)) {
+			pop(head, &tmp);
+			flag = 1;
+		}
+		if(!flag)
+			tmp = tmp->next;
 	}
 }
 
@@ -88,3 +108,16 @@ void printList(const list* head)
 	}
 	printf("\n");
 }
+
+void removeEOL(char **str)
+{
+	char *pa = *str;
+	while(*pa != '\0') {
+		if(*pa == '\n') {
+			*pa = *(pa + 1);
+			break;
+		}
+		pa++;
+	}
+}
+
