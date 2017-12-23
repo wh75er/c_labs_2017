@@ -2,17 +2,19 @@ ifndef VERBOSE
 .SILENT:
 endif
 
-CC := gcc
-OBJ := libs.o
+CC := g++
+OBJ := libs.o func.o
 
-mainFile : main.out rmObjc
+CFLAGS := -lgtest_main -lgtest -pthread -g
 
-main.out : $(OBJ) func.o
-	$(CC) $^ -o $@
+mainFile : test.out rmObjc
+
+test.out : $(OBJ) unitTest.o
+	$(CC) $(CFLAGS) $^ -o $@
 	@echo "Compiling finished"
 
 %.o : %.c *.h
-	$(CC) -c $<
+	$(CC) $(CFLAGS) -c $<
 	@echo "-DONE"
 
 rmObjc:

@@ -1,15 +1,20 @@
 #include "gtest/gtest.h"
 #include <limits.h>
 #include <stdlib.h>
-#include "func.c"
+#include "libs.h"
 
 const char* TEST_1 = "f 10 hello 0x55\n";
 
 
 
 TEST (my_snprintf, happyPass) {
-	char* format = "%c %d %s %x";
-	char* str = NULL;
+	const char* format = "%c %d %s %x";
+	char* str = (char*)malloc(sizeof(char) * BUFFSIZE);
+	my_snprintf(str, 100, format, 'f', 10, "hello", 0x55);
+
+	ASSERT_STREQ(str, TEST_1);
+
+	free(str);
 }
 
 

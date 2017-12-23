@@ -1,11 +1,11 @@
 #include "libs.h"
 
-int my_snprintf(char *str, size_t size, const char *format, va_list ap) 
+int my_snprintf(char *str, size_t size, const char *format, int num_args, ...) 
 {
+	va_list ap;
+	va_start(ap, num_args);
 	int count = 0; 
 
-	if(!str)
-		str = (char*)malloc(sizeof(char) * BUFFSIZE);
 	if(!str)
 		return count;
 
@@ -13,12 +13,12 @@ int my_snprintf(char *str, size_t size, const char *format, va_list ap)
 	char *strP = str;
 	for(char *pa = (char*)format; *pa != '\0'; pa++) {
 		if(count + 1 >=  BUFFSIZE) {
-			str = (char*)realloc(str, count + BUFFSIZE);
-			count += BUFFSIZE;
+			break;
 		}
 
-		if(!flag && *pa == '%')
+		if(!flag && *pa == '%') {
 			flag = 1;
+		}
 		else if(!flag) {
 			if(count < size) {
 				*strP = *pa;
@@ -27,8 +27,8 @@ int my_snprintf(char *str, size_t size, const char *format, va_list ap)
 		}
 
 		if(flag && *pa == 's') {
-			const char *tmp = va_arg(ap, const char*);
-			for(char* pb = (char*)tmp; *pb != '\0'; pb++) {
+			char *tmp = va_arg(ap, char*);
+			for(char* pb = tmp; *pb != '\0'; pb++) {
 				if(count < size) {
 					*strP = *pb;
 					strP++;
@@ -38,7 +38,7 @@ int my_snprintf(char *str, size_t size, const char *format, va_list ap)
 			flag = 0;
 		}
 		else if(flag && *pa == 'c') {
-			const char tmp = va_arg(ap, const int);
+			char tmp = va_arg(ap, int);
 			if(count < size) {
 				*strP = (char)tmp;
 				strP++;
@@ -46,7 +46,7 @@ int my_snprintf(char *str, size_t size, const char *format, va_list ap)
 			flag = 0;
 		}
 		else if(flag && *pa == 'd') {
-			const int tmp = va_arg(ap, const int);
+			int tmp = va_arg(ap, int);
 			if(count < size) {
 				*strP = tmp + '0';
 				strP++;
@@ -58,9 +58,9 @@ int my_snprintf(char *str, size_t size, const char *format, va_list ap)
 				if(*(pa-1) == '%') {
 					*strP = *pa;
 					strP++;
+					flag = 0;
 				}
 			}
-			flag = 0;
 		}
 		else if(flag && *pa == 'x') {
 			unsigned int tmp = va_arg(ap, unsigned int);
@@ -70,6 +70,6 @@ int my_snprintf(char *str, size_t size, const char *format, va_list ap)
 		
 		
 
-		flag = 0;
 	}
+	va_end(ap);
 }
