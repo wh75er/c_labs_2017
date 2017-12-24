@@ -16,9 +16,6 @@ int my_snprintf(char *str, size_t size, const char *format, ...)
 			*strP = '\0';
 			break;
 		}
-		if(count + 1 < BUFFSIZE) {
-			*(strP + 1) = '\0';
-		}
 
 		if(!flag && *pa == '%') {
 			flag = 1;
@@ -27,6 +24,7 @@ int my_snprintf(char *str, size_t size, const char *format, ...)
 			if(count < size) {
 				*strP = *pa;
 				strP++;
+				count++;
 			}
 		}
 
@@ -36,21 +34,23 @@ int my_snprintf(char *str, size_t size, const char *format, ...)
 				if(count < size) {
 					*strP = *pb;
 					strP++;
+					count++;
 				}
 				count++;
 			}
 			flag = 0;
 		}
 		else if(flag && *pa == 'c') {
-			char tmp = va_arg(ap, int);
+			char tmp = (long int)va_arg(ap, int);
 			if(count < size) {
 				*strP = (char)tmp;
 				strP++;
+				count++;
 			}
 			flag = 0;
 		}
 		else if(flag && *pa == 'd') {
-			int tmp = va_arg(ap, int);
+			long int tmp = (long int)va_arg(ap, int);
 			if(count < size) {
 				int2str(&strP, &count, size, tmp);
 			}
@@ -61,18 +61,21 @@ int my_snprintf(char *str, size_t size, const char *format, ...)
 				if(*(pa-1) == '%') {
 					*strP = *pa;
 					strP++;
+					count++;
 					flag = 0;
 				}
 			}
 		}
 		else if(flag && *pa == 'x') {
-			unsigned int tmp = va_arg(ap, unsigned int);
+			unsigned long int tmp = (unsigned long int)va_arg(ap, unsigned int);
 			hex2str(&strP, &count, size, tmp);
 			flag = 0;
 		}
-		
-		
-
 	}
+	if(count + 1 < BUFFSIZE) {
+		*strP = '\0';
+	}
+	*(str + BUFFSIZE) = '\0';
 	va_end(ap);
+	return count;
 }

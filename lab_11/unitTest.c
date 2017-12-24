@@ -6,6 +6,8 @@
 const char* TEST_1 = "f 10 hello 0x55";
 const char* TEST_2 = "The size of something : 116km and name of it Lorry";
 const char* TEST_3 = "This word <test> staying before this";
+const char* TEST_4 = "This is procent % :)";
+const char* TEST_5 = "Long modifier --- 55555";
 
 
 
@@ -35,6 +37,26 @@ TEST (my_snprintf, string_after_format) {
 	my_snprintf(str, 100, format, "<test>");
 
 	ASSERT_STREQ(str, TEST_3);
+
+	free(str);
+}
+
+TEST (my_snprintf, procent_result) {
+	const char* format = "This is procent %% :)";
+	char* str = (char*)malloc(sizeof(char) * BUFFSIZE);
+	my_snprintf(str, 100, format);
+
+	ASSERT_STREQ(str, TEST_4);
+
+	free(str);
+}
+
+TEST (my_snprintf, long_modifier) {
+	const char* format = "Long modifier --- %ld";
+	char* str = (char*)malloc(sizeof(char) * BUFFSIZE);
+	my_snprintf(str, 100, format, 55555);
+
+	ASSERT_STREQ(str, TEST_5);
 
 	free(str);
 }

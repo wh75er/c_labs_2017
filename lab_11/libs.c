@@ -13,6 +13,7 @@ void hex2str(char **pa, int* count, const size_t size, unsigned int data)
 			(*pa)++;
 			*(*pa) = 'x';
 			(*pa)++;
+			(*count)+=2;
 		}
 	for(int i = shift; i > -1; i-=4) {
 		ch = (data>>shift & 0xF) + '0';
@@ -21,6 +22,7 @@ void hex2str(char **pa, int* count, const size_t size, unsigned int data)
 		if(*count < size) {
 			*(*pa) = ch;
 			(*pa)++;
+			(*count)++;
 		}
 	}
 }
@@ -40,12 +42,14 @@ void int2str(char **pa, int* count, const size_t size, int data)
 		if(*count < size) {
 			*(*pa) = data + '0';
 			(*pa)++;
+			(*count)++;
 		}
 	for(int i = dec - 1; i > -1; i--) {
 		if(*count < size) {
 			shift = shift/10;
 			*(*pa) = ( data/(shift) )%10 + '0';
 			(*pa)++;
+			(*count)++;
 		}
 	}
 }
