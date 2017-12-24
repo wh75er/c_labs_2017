@@ -9,6 +9,7 @@
 #include <stdarg.h>
 
 void hex2str(char **pa, int *count, const size_t size, unsigned int data);
-int my_snprintf(char *str, size_t size, const char *format, int num_args, ...);
+void int2str(char **pa, int *count, const size_t size, int data);
+int my_snprintf(char *str, size_t size, const char *format, ...);
 
 #endif

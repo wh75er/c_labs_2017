@@ -1,9 +1,9 @@
 #include "libs.h"
 
-int my_snprintf(char *str, size_t size, const char *format, int num_args, ...) 
+int my_snprintf(char *str, size_t size, const char *format, ...) 
 {
 	va_list ap;
-	va_start(ap, num_args);
+	va_start(ap, format);
 	int count = 0; 
 
 	if(!str)
@@ -13,7 +13,11 @@ int my_snprintf(char *str, size_t size, const char *format, int num_args, ...)
 	char *strP = str;
 	for(char *pa = (char*)format; *pa != '\0'; pa++) {
 		if(count + 1 >=  BUFFSIZE) {
+			*strP = '\0';
 			break;
+		}
+		if(count + 1 < BUFFSIZE) {
+			*(strP + 1) = '\0';
 		}
 
 		if(!flag && *pa == '%') {
@@ -48,8 +52,7 @@ int my_snprintf(char *str, size_t size, const char *format, int num_args, ...)
 		else if(flag && *pa == 'd') {
 			int tmp = va_arg(ap, int);
 			if(count < size) {
-				*strP = tmp + '0';
-				strP++;
+				int2str(&strP, &count, size, tmp);
 			}
 			flag = 0;
 		}
@@ -64,7 +67,7 @@ int my_snprintf(char *str, size_t size, const char *format, int num_args, ...)
 		}
 		else if(flag && *pa == 'x') {
 			unsigned int tmp = va_arg(ap, unsigned int);
-			hex2str(&pa, &count, size, tmp);
+			hex2str(&strP, &count, size, tmp);
 			flag = 0;
 		}
 		
