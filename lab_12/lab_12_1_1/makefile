@@ -1,20 +1,26 @@
-CC := gcc
+ifdef _SILENCE
+.SILENT:
+endif
 
-OBJS := compare.o counter.o dynamic_arrays.o sort_filter.o swap.o main_dynamic_array.o file_write.o file_open.o
+static : static.out cleanObj
 
-mainCreate : main.out cleanObj
+dynamic : dynamic.out cleanObj
 
-main.out: $(OBJS) main.o
-	$(CC) $^ -o $@
+static.out: main.o
+	cd libUtils/ && make static
+	gcc -c main.c
+	gcc *.o -o $@ libUtils/libstatic.a
 
-%.o : %.c *.h
-	$(CC) -c $<
+dynamic.out: main.o
+	cd libUtils/ && make dynamic
+	gcc -c main.c
+	gcc *.o -o $@ libUtils/libdynamic.so
 
 
 cleanObj :
-	rm *.o
+	rm *.o 2> /dev/null
 clean:
-	rm *.o *.out *.txt tests/func/out?.txt tests/unit/out?.txt
+	rm *.o *.out *.txt tests/func/out?.txt tests/unit/out?.txt 2> /dev/null
 
 func_test:
 	./func_tests

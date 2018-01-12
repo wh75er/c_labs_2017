@@ -1,0 +1,64 @@
+#!/bin/bash
+
+make static _SILENCE=1
+
+echo
+echo "Func tests for static lib:"
+echo "Tests with filter:"
+echo
+for ((i = 0; i < 8; i++))
+	do
+		./static.out tests/func/in$i.txt tests/func/out$i.txt 0
+		if cmp -s tests/func/out$i.txt tests/func/out_0_$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+echo
+echo "Tests without filters:"
+echo
+for ((i = 0; i < 8; i++))
+	do
+		./static.out tests/func/in$i.txt tests/func/out$i.txt 1
+		if cmp -s tests/func/out$i.txt tests/func/out_1_$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+
+make clean _SILENCE=1
+make dynamic _SILENCE=1
+
+echo
+echo "Func tests for so:"
+echo "Tests with filter:"
+echo
+for ((i = 0; i < 8; i++))
+	do
+		./dynamic.out tests/func/in$i.txt tests/func/out$i.txt 0
+		if cmp -s tests/func/out$i.txt tests/func/out_0_$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+echo
+echo "Tests without filters:"
+echo
+for ((i = 0; i < 8; i++))
+	do
+		./dynamic.out tests/func/in$i.txt tests/func/out$i.txt 1
+		if cmp -s tests/func/out$i.txt tests/func/out_1_$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+
+make clean _SILENCE=1
