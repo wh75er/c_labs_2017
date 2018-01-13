@@ -3,7 +3,7 @@ from lib import *
 
 def check(expt, real, i):
     if expt == real: print(i, " : PASS")
-    else: print("i, FAIL")
+    else: print(i , " : FAIL")
 
 def test1():
     expt = [1]
@@ -32,15 +32,23 @@ def test4():
     real = [0]*6
     
     squares(expt, real)
-    check(inarr, real, 1)
+    check(expt, real, 1)
+
+def test7():
+    inarr = [1, 5, 9, 17, 25, -36]
+    expt = [1, 9, 25]
+    real = [0]*3
+    
+    squares(expt, real)
+    check(expt, real, 4)
 
 def test5():
     inarr = [0]*2
-    expt = [3, 5]
+    expt = [0, 0]
     real = [0]*2
     
     squares(expt, real)
-    check(inarr, real, 2)   
+    check(expt, real, 2)   
 
 def test6():
     inarr = []
@@ -48,7 +56,7 @@ def test6():
     real = []
 
     squares(expt, real)
-    check(inarr, real, 3)
+    check(expt, real, 3)
 
 def main():
     print("{:^79}".format("Tests cyrcle shift run >> "))
@@ -60,6 +68,7 @@ def main():
     test4()
     test5()
     test6()
+    test7()
     
 if __name__ == '__main__':
     main()   
