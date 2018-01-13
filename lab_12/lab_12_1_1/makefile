@@ -6,15 +6,22 @@ static : static.out cleanObj
 
 dynamic : dynamic.out cleanObj
 
+dynamicLoad : dynamicLoad.out cleanObj
+
 static.out: main.o
 	cd libUtils/ && make static
 	gcc -c main.c
-	gcc *.o -o $@ libUtils/libstatic.a
+	gcc *.o -o $@ libUtils/libstatic.a 
 
 dynamic.out: main.o
 	cd libUtils/ && make dynamic
 	gcc -c main.c
 	gcc *.o -o $@ libUtils/libdynamic.so
+
+dynamicLoad.out: mainLoad.o
+	cd libUtils/ && make dynamic
+	gcc -c mainLoad.c
+	gcc *.o -o $@ -ldl
 
 
 cleanObj :
@@ -24,5 +31,3 @@ clean:
 
 func_test:
 	./func_tests
-unit_test:
-	./unit_tests

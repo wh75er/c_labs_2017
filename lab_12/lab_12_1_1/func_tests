@@ -62,3 +62,35 @@ for ((i = 0; i < 8; i++))
 	done
 
 make clean _SILENCE=1
+
+make dynamicLoad _SILENCE=1
+
+echo
+echo "Func tests for so loaded:"
+echo "Tests with filter:"
+echo
+for ((i = 0; i < 8; i++))
+	do
+		./dynamicLoad.out tests/func/in$i.txt tests/func/out$i.txt 0
+		if cmp -s tests/func/out$i.txt tests/func/out_0_$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+echo
+echo "Tests without filters:"
+echo
+for ((i = 0; i < 8; i++))
+	do
+		./dynamicLoad.out tests/func/in$i.txt tests/func/out$i.txt 1
+		if cmp -s tests/func/out$i.txt tests/func/out_1_$i.txt
+		then
+			echo "Test $i is OK"
+		else
+			echo "Test $i is BAD"
+		fi
+	done
+
+make clean _SILENCE=1
